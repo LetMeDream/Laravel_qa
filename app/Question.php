@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\User;
 
@@ -23,6 +24,19 @@ class Question extends Model
 
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug( $value );
+
+    }
+
+    /** Accesors */
+    public function getUrlAttribute(){
+
+        return route('questions.show', $this->id);
+
+    }
+
+    public function getCreatedDateAttribute($value){
+
+        return $this->created_at->diffForHumans();
 
     }
 

@@ -9,14 +9,21 @@
 
                 <div class="card-body">
                     @foreach ($questions as $question)
+                        <p class='lead'>
+                            Asked By
+                            <a href=' {{ $question->user->url }} '> {{ $question->user->name }} </a>
+                            <small class='text-muted'> {{ $question->created_date }} </small>
+                        </p>
+
                         <div>
-                            <h5>{{ $question->title }}</h5>
+                            <h5><a href='{{ $question->url }}' >{{ $question->title }}</a></h5>
                         </div>
                         <div>
                             <p>
                                 {{ Str::limit($question->body, 200) }}
                             </p>
                         </div>
+
                         <hr>
                     @endforeach
 
