@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 use App\User;
 
@@ -20,8 +21,8 @@ class Question extends Model
     /** Mutator */
     public function setTitleAttribute($value){
 
-        $this->attribute['title'] = $value;
-        $this->attribute['slug'] = str_slug( $value );
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = Str::slug( $value );
 
     }
 
