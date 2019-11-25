@@ -35,7 +35,9 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        //
+        $question = new Question;
+
+        return view('questions.create', compact('question'));
     }
 
     /**
@@ -46,7 +48,13 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* dd($request); */
+        $data = $request->validate([
+            'title' => 'required',
+            'body' => 'required|min:10'
+        ]);
+
+
     }
 
     /**
