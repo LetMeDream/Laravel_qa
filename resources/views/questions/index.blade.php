@@ -21,15 +21,22 @@
                     @foreach ($questions as $question)
                     <div class='media'>
                         <div class="media-body">
+                            <div class="d-flex align-items-center">
+                            <div>
+                                    <h5><a href='{{ $question->url }}' >{{ $question->title }}</a></h5>
+                            </div>
+                            @if (auth()->user()->name == $question->user->name)
+                                <div class="ml-auto">
+                                    <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
+                                </div>
+                            @endif
+
+                        </div>
                             <p class='lead'>
                                 Asked By
                                 <a href=' {{ $question->user->url }} '> {{ $question->user->name }} </a>
                                 <small class='text-muted'> {{ $question->created_date }} </small>
                             </p>
-
-                            <div>
-                                <h5><a href='{{ $question->url }}' >{{ $question->title }}</a></h5>
-                            </div>
                             <div>
                                 <p>
                                     {{ Str::limit($question->body, 200) }}
