@@ -23,16 +23,19 @@
                             <div>
                                     <h1>{{ $question->title }}</h1>
                             </div>
-                            @if (auth()->user()->name == $question->user->name)
                                 <div class="ml-auto">
+                                    @can ('update', $question)
                                         <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
-                                    <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
-                                        @method('delete')
-                                        @csrf
-                                        <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
-                                    </form>
+                                    @endcan
+                                    @can('delete', $question)
+                                        <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
+                                            @method('delete')
+                                            @csrf
+                                            <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
+                                        </form>
+                                    @endcan
                                 </div>
-                            @endif
+
 
                         </div>
                             <p class='lead'>
