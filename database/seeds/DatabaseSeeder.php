@@ -16,6 +16,14 @@ class DatabaseSeeder extends Seeder
 
             $user->questions()->saveMany(
                 factory(App\Question::class,rand(1,5))->make()
+            )->each(
+                function($question){
+                    $question->answers()->saveMany(
+
+                        factory(App\Answer::class, rand(0,10))->make()
+
+                    );
+                }
             );
 
         });

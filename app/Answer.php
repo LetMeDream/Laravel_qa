@@ -28,4 +28,27 @@ class Answer extends Model
 
     }
 
+    /** Here we will watch for our events */
+
+    public static function boot(){
+
+        parent::boot();
+
+        static::created(function($answer){
+
+            /* echo "Answer created\n"; */
+
+            $answer->question->increment('answers_count');
+
+        });
+
+        static::saved(function($answer){
+
+            echo "Answer saved\n";
+
+        });
+
+    }
+
+
 }
