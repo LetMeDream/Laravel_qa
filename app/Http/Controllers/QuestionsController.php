@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
@@ -46,14 +47,14 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        /* dd($request); */
-        $data = $request->validate([
-            'title' => 'required',
-            'body' => 'required|min:10'
-        ]);
+        /** Now the request validating is handled in App\Http\Requests\AskQuestionsRequest */
 
+        /** We just store the question, related to the user, by calling their relation previosly defined. */
+        $request->user()->questions()->create($request->all());
+
+        return redirect()->route('questions.index')->with('success', 'Your question has been submitted');
 
     }
 
