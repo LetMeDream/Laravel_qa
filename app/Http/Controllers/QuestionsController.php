@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Gate;
 
 class QuestionsController extends Controller
 {
+    /** Implementing middleware inside controller's contructor */
+    public function __construct(){
+
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+
+    }
+
     /**
      * Display a listing of the resource.
      *
