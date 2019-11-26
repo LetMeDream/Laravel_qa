@@ -7,15 +7,23 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\User;
+use App\Answer;
 
 class Question extends Model
 {
     //
     protected $fillable = ['title', 'body'];
 
+    /** Relationship toward Users */
     public function user(){
 
         return $this->belongsTo(User::class);
+
+    }
+    /** Relationship toward Answers */
+    public function answers(){
+
+        return $this->hasMany(Answer::class);
 
     }
 
@@ -42,7 +50,7 @@ class Question extends Model
 
     public function getStatusAttribute(){
 
-        if($this->answers>0){
+        if($this->answers_count>0){
             if($this->best_answer_id==null){
                 return "answered";
             }else{
