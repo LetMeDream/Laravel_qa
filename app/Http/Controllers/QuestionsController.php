@@ -103,6 +103,9 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+
+        $question->destroy($question->id);
+
+        return back()->with('success', 'Question succesfully deleted');
     }
 }
