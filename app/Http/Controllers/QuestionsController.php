@@ -66,7 +66,8 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        /* dd($question->body); */
+        return view('questions.show', compact('question'));
     }
 
     /**
@@ -106,6 +107,6 @@ class QuestionsController extends Controller
 
         $question->destroy($question->id);
 
-        return back()->with('success', 'Question succesfully deleted');
+        return redirect('/questions')->with('success', 'Question succesfully deleted');
     }
 }

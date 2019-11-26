@@ -20,4 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 /** Resourceful Route for questions */
-Route::resource('questions', 'QuestionsController')->middleware('auth');
+Route::resource('questions', 'QuestionsController')->except('show')->middleware('auth');
+Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show')->middleware('auth');
