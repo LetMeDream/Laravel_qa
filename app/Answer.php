@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Question;
+use Carbon\Carbon;
 
 class Answer extends Model
 {
@@ -28,12 +29,20 @@ class Answer extends Model
 
     }
 
-    /** Here we will watch for our events */
+    /** Accesor */
+    public function getCreatedDateAttribute(){
+
+        return $this->created_at->diffForHumans();
+
+    }
+
+    /** Here we will watch out for our events */
 
     public static function boot(){
 
         parent::boot();
 
+        /** Eloquent Event; when created */
         static::created(function($answer){
 
             /* echo "Answer created\n"; */
@@ -42,6 +51,7 @@ class Answer extends Model
 
         });
 
+        /** Eloquent Event; when saved */
         static::saved(function($answer){
 
             echo "Answer saved\n";

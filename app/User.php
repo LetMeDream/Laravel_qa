@@ -61,4 +61,16 @@ class User extends Authenticatable
 
     }
 
+    /** Accesor */
+
+    public function getAvatarAttribute(){
+
+        /** This was brought from Gravatar */
+        $email = $this->email;
+        $size = 32;
+
+        return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
+
+    }
+
 }
