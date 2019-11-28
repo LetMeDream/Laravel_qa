@@ -1,3 +1,4 @@
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 @extends('layouts.app')
 
 @section('content')
@@ -5,10 +6,25 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                {{-- <div class="card-body"></div> --}}
                 <div class="card-header">
                     <div class="d-flex align-items-center">
 
-
+                            <div>
+                                    <h1>{{ $question->title }}</h1>
+                            </div>
+                            <div class="ml-auto">
+                                @can ('update', $question)
+                                    <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
+                                @endcan
+                                @can('delete', $question)
+                                    <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
+                                        @method('delete')
+                                        @csrf
+                                        <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
+                                    </form>
+                                @endcan
+                            </div>
 
                     </div>
 
@@ -18,31 +34,24 @@
                 <div class="card-body">
 
                     <div class='media'>
-                        <div class="media-body">
-                            <div class="d-flex align-items-center">
-                            <div>
-                                    <h1>{{ $question->title }}</h1>
-                            </div>
-                                <div class="ml-auto">
-                                    @can ('update', $question)
-                                        <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
-                                    @endcan
-                                    @can('delete', $question)
-                                        <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
-                                            @method('delete')
-                                            @csrf
-                                            <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
-                                        </form>
-                                    @endcan
-                                </div>
-
-
+                        <!-- Vote controls -->
+                        <div class="d-flex flex-column  media-left vote-controls">
+                            <a title='This question is useful' class='vote-up'>
+                                <i class='fas fa-caret-up fa-2x'></i>
+                            </a>
+                            <span class='votes-count'>1230</span>
+                            <a title='This question is not useful' class='vote-down off'>
+                                <i class='fas fa-caret-down fa-2x'></i>
+                            </a>
+                            <a title='Click to mark as favorite (click again to undo)' class='mt-2 favorite favorited'>
+                                <i class='fas fa-star'></i>
+                            </a>
+                            <span class='favorites-count'>123</span>
                         </div>
-                            <p class='lead'>
-                                Asked By
-                                <a href=' {{ $question->user->url }} '> {{ $question->user->name }} </a>
-                                <small class='text-muted'> {{ $question->created_date }} </small>
-                            </p>
+                        <!-- Vote controls -->
+
+
+                        <div class="media-body">
                             <div>
                                 <p>
                                     {{-- {{ $question->body }} --}}
@@ -110,6 +119,21 @@
                     @foreach ($question->answers as $answer)
 
                         <div class="media mt-2">
+                            <!-- Vote controls -->
+                            <div class="d-flex flex-column  media-left vote-controls">
+                                <a title='This question is useful' class='vote-up'>
+                                    <i class='fas fa-caret-up fa-2x'></i>
+                                </a>
+                                <span class='votes-count'>123</span>
+                                <a title='This question is not useful' class='vote-down off'>
+                                    <i class='fas fa-caret-down fa-2x'></i>
+                                </a>
+                                <a title='Mark this as best answer' class='mt-2 vote-accept'>
+                                    <i class='fas fa-check fa-2x'></i>
+                                </a>
+                                {{-- <span class='favorites-count'>13</span> --}}
+                            </div>
+                            <!-- Vote controls -->
                             <div class="media-body">
                                     {!! $answer->body_html !!}
                                 <div class="float-right">

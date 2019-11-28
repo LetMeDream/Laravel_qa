@@ -5,6 +5,8 @@
  */
 
 require('./bootstrap');
+/** Here we added our fontawesome.js file, and then we had to run 'npm run watch' for webpack to compile our js file. */
+require('./fontawesomee');
 
 window.Vue = require('vue');
 

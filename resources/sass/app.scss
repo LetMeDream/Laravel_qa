@@ -6,6 +6,8 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
 
 .counters{
     margin-left:20px;
@@ -43,4 +45,56 @@
     .views{
         margin-top:10px;
     }
+}
+
+.vote-controls{
+    min-width:60px;
+    margin-right:30px;
+    text-align:center;
+    color: $gray-700;
+
+    span, a {
+        display:block;
+    }
+
+    span{
+
+        &.votes-count{
+            font-size:25px;
+        }
+        &.favorites-count{
+            font-size:12px;
+        }
+
+    }
+
+    .vote-up, .vote-down , .favorite{
+
+        cursor:pointer;
+        color: $gray-600;
+
+        &.off, &.off:hover{
+
+            color: $gray-500;
+
+        }
+    }
+
+    .vote-accept{
+        cursor:pointer;
+    }
+
+    .vote-accepted{
+        cursor:pointer;
+        color: $green !important;
+    }
+
+    .favorite{
+
+        &.favorited , &.favorited:hover{
+            color: $warning;
+        }
+
+    }
+
 }
