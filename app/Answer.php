@@ -9,6 +9,9 @@ use Carbon\Carbon;
 
 class Answer extends Model
 {
+
+    protected $guarded = [];
+
     // Relationship toward User
     public function user(){
 
