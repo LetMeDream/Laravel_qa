@@ -39,6 +39,21 @@ class Answer extends Model
 
     }
 
+    /** Accesor for best answer */
+    public function getStatusAttribute(){
+
+        if($this->question->best_answer_id === $this->id){
+
+            return 'vote-accepted';
+
+        }else{
+
+            return 'vote-accept';
+
+        }
+
+    }
+
     /** Here we will watch out for our events */
 
     public static function boot(){
@@ -63,7 +78,17 @@ class Answer extends Model
 
         static::deleted(function($answer){
 
-            $answer->question->decrement('answers_count');
+            $question = $answer->question;
+            $question->decrement('answers_count');
+
+            /** Set to null the question's 'best_answer_id' in case this was the best answer for its question */
+            if($answer->id === $question->best_answer_id){
+
+                $question->best_answer_id = null; /** Don't forget to save it */
+                $question->save();
+
+            }
+
 
         });
 
