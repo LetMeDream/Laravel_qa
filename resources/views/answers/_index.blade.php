@@ -34,19 +34,41 @@
                             <!-- Vote controls -->
                             <div class="media-body">
                                     {!! $answer->body_html !!}
-                                <div class="float-right">
-                                    <span class='text-muted'>{{$answer->created_date}}</span>
-                                    <div class="media mt-1">
-                                        <a href='{{ $answer->user->url }}' class='pr-2' >
-                                            <img src=' {{ $answer->user->avatar }} '>
-                                        </a>
-                                        <div class="media-body mt-1">
-                                            <a href='{{ $answer->user->url }}' class='pr-2' >
-                                                 {{ $answer->user->name }}
-                                            </a>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <!-- Delete and updte stuff -->
+                                        <div class='float-left'>
+                                                @if (Gate::allows('update', $answer))
+                                                    <a href='{{ route("questions.answers.edit", [$question->id ,$answer->id]) }}' class='btn btn-sm btn-outline-info'>Edit</a>
+                                                @endif
+                                                @if (Gate::allows('delete', $answer))
+                                                    <form action='{{ route("questions.answers.destroy", [$question->id, $answer->id]) }}' method='post' class='d-inline'>
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
+                                                    </form>
+                                                @endif
                                         </div>
+                                        <!-- Delete and updte stuff -->
                                     </div>
+                                    <div class="col-5"></div>
+                                    <div class="col-3">
+                                            <span class='text-muted'>{{$answer->created_date}}</span>
+                                            <div class="media mt-1">
+                                                <a href='{{ $answer->user->url }}' class='pr-2' >
+                                                    <img src=' {{ $answer->user->avatar }} '>
+                                                </a>
+                                                <div class="media-body mt-1">
+                                                    <a href='{{ $answer->user->url }}' class='pr-2' >
+                                                         {{ $answer->user->name }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
+
+
                             </div>
                         </div>
                         <hr>
