@@ -39,6 +39,13 @@ class Answer extends Model
 
     }
 
+    /** Accesor to get the best Answer with class='vote-accepted' */
+    public function getStatusAttribute(){
+
+        return $this->question->best_answer_id === $this->id ? 'vote-accepted' : 'vote-accept';
+
+    }
+
     /** Here we will watch out for our events */
 
     public static function boot(){

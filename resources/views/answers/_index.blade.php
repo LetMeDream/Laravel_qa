@@ -26,7 +26,7 @@
                                 <a title='This question is not useful' class='vote-down off'>
                                     <i class='fas fa-caret-down fa-2x'></i>
                                 </a>
-                                <a title='Mark this as best answer' class='mt-2 vote-accept'>
+                                <a title='Mark this as best answer' class='mt-2 {{ $answer->status }}'>
                                     <i class='fas fa-check fa-2x'></i>
                                 </a>
                                 {{-- <span class='favorites-count'>13</span> --}}
