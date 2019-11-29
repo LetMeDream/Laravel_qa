@@ -26,3 +26,6 @@ Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show
 /** Resourceful Route for answers */
 Route::resource('questions.answers', 'AnswersController')->only(['store', 'destroy', 'update', 'edit']);
 /* Route::post('questions/{question}/answers', 'AnswerController@store')->name('answers.store'); */
+
+/** accepting answer as best with a SINGLE ACTION CONTROLLER */
+Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');

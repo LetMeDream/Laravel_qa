@@ -68,4 +68,24 @@ class Question extends Model
 
     }
 
+    /** Accepting best-o Answer */
+    public function AcceptBestAnswer($answer){
+
+        if($this->best_answer_id === $answer->id){
+
+            $this->best_answer_id = null;
+            $this->save();
+            return 1;
+
+        }else{
+
+            $this->best_answer_id = $answer->id;
+            $this->save();
+            return 2;
+
+        }
+
+
+    }
+
 }

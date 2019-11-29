@@ -42,9 +42,24 @@ class Answer extends Model
     /** Accesor to get the best Answer with class='vote-accepted' */
     public function getStatusAttribute(){
 
-        return $this->question->best_answer_id === $this->id ? 'vote-accepted' : 'vote-accept';
+        return $this->isBest() ? 'vote-accepted' : 'vote-accept';
 
     }
+
+    /** Accesor to decide whether this answer if the best for its question */
+    public function getIsBestAttribute(){
+
+        return $this->isBest();
+
+    }
+
+    /** Now, refactoring isBest (because it's used on the previous 2 accessors) */
+    public function isBest(){
+
+        return $this->question->best_answer_id === $this->id;
+
+    }
+
 
     /** Here we will watch out for our events */
 

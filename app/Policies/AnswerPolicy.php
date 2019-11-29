@@ -68,7 +68,7 @@ class AnswerPolicy
     public function delete(User $user, Answer $answer)
     {
         //
-        return ($answer->user_id === $user->id);
+        return ($answer->user_id === $user->id|| $answer->question->user_id === $user->id );
     }
 
     /**
@@ -90,8 +90,10 @@ class AnswerPolicy
      * @param  \App\Answer  $answer
      * @return mixed
      */
-    public function forceDelete(User $user, Answer $answer)
+    public function accept_answer(User $user, Answer $answer)
     {
-        //
+        /** Only to be seen if you are the user creator of the question */
+        return( $user->id === $answer->question->user_id );
+
     }
 }
