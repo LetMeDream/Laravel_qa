@@ -75,8 +75,23 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question , Answer $answer)
     {
-        //
+        // Remember to authorize in the backend, as well, using our custom Policies.
+        $this->authorize('delete', $answer);
+        $answer->destroy($answer->id);
+        return back()->with('success', 'Your answer was successfully deleted');
+
+        /** NOTE:
+         *  Remember there will be aditional logic in this part of the Answers CRUD.
+         *  This aditional logic will cover the case when an Answer already selected as Best_answer is deleted.
+         *
+         *  For this particular case we have 2 options:
+         *  1) The best answer could be prevented to be removed. Which can be done on out 'delete' policy.
+         *  2) The best answer can be removed, but we will need to update column 'best_answer_id' in the Questions table whenever we do it.
+         *
+         *  In this app we will use the second approach.
+         */
+
     }
 }
