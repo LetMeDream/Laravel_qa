@@ -27,6 +27,55 @@ class Question extends Model
 
     }
 
+    /** Many to many relationship (questions<->users)  */
+    public function favorites(){
+
+        /** So this user has many favorites questions through 'favorites' pivot table */
+        return $this->belongsToMany(User::class, 'favorites');
+
+    }
+
+    /** Another accesor, this one so we can know if the logged user has favorited this question */
+    public function getIsFavoritedAttribute(){
+
+        return isFavorited();
+
+    }
+
+    /** The function to know if the current logged user has favorited this question */
+    public function isFavorited(){
+
+        return $this->favorites()->where('user_id', Auth()->id() )->count() > 0; //True if this user has this question as favorite
+
+    }
+
+    public function getIsFavoritedCountAttribute(){
+
+        return $this->favorites->count(); // Counting how many favorites does this question have.
+
+    }
+
+    /** Accesor to know whether current user has favorited que question */
+    public function getBeenFavoritedAttribute(){
+
+        $users = $this->favorites()->pluck('user_id');
+        $longitud = count($users);
+
+        for($i = 0; $i <= $longitud-1; $i++){
+
+            if($users[$i] === auth()->id()){
+
+                return 'favorited';
+
+            }
+
+        }
+
+        return '';
+
+
+    }
+
     /** Mutator */
     public function setTitleAttribute($value){
 

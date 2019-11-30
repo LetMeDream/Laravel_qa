@@ -27,5 +27,7 @@ Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show
 Route::resource('questions.answers', 'AnswersController')->only(['store', 'destroy', 'update', 'edit']);
 /* Route::post('questions/{question}/answers', 'AnswerController@store')->name('answers.store'); */
 
-/** accepting answer as best with a SINGLE ACTION CONTROLLER */
+/** Accepting answer as best with a SINGLE ACTION CONTROLLER */
 Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
+/** Favoriting a question with a SINGLE ACTION CONTROLLER */
+Route::post('question/{question}/favorite', 'FavoriteQuestionController')->name('favorite.question');

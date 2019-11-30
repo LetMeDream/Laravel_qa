@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AcceptAnswerController extends Controller
 {
-    //
+    // Function __invoke will always be called when we are in SINGLE ACTION CONTROLLERS
     public function __invoke(Answer $answer){
 
         /* Please, remember to fucking authorize your policies in the BACK END */

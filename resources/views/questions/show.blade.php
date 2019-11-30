@@ -14,16 +14,9 @@
                                     <h1>{{ $question->title }}</h1>
                             </div>
                             <div class="ml-auto">
-                                @can ('update', $question)
-                                    <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
-                                @endcan
-                                @can('delete', $question)
-                                    <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
-                                        @method('delete')
-                                        @csrf
-                                        <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
-                                    </form>
-                                @endcan
+
+                                <a href='{{ route("questions.index") }}' class='btn btn-outline-secondary'>Back to all questions</a>
+
                             </div>
 
                     </div>
@@ -43,10 +36,26 @@
                             <a title='This question is not useful' class='vote-down off'>
                                 <i class='fas fa-caret-down fa-2x'></i>
                             </a>
-                            <a title='Click to mark as favorite (click again to undo)' class='mt-2 favorite favorited'>
-                                <i class='fas fa-star'></i>
-                            </a>
-                            <span class='favorites-count'>123</span>
+                            @auth
+                                <a
+                                onclick = 'event.preventDefault(); document.getElementById("favoriteQuestion/{{ $question->id }}").submit();'
+                                title='Click to mark as favorite (click again to undo)' class='mt-2 favorite {{ $question->beenFavorited }}'>
+                                    <i class='fas fa-star fa-2x'></i>
+                                </a>
+                                <form id='favoriteQuestion/{{ $question->id }}' action='{{ route('favorite.question', $question->id) }} ' method='POST' >
+                                    @csrf
+                                </form>
+                            @else
+                                <a
+                                onclick = 'event.preventDefault(); document.getElementById("favoriteQuestion/{{ $question->id }}").submit();'
+                                title='Click to mark as favorite (click again to undo)' class='mt-2 favorite'>
+                                    <i class='fas fa-star fa-2x'></i>
+                                </a>
+                                <form id='favoriteQuestion/{{ $question->id }}' action='{{ route('favorite.question', $question->id) }} ' method='POST' >
+                                    @csrf
+                                </form>
+                            @endauth
+                            <span class='favorites-count'>{{$question->isFavoritedCount}}</span>
                         </div>
                         <!-- Vote controls -->
 
@@ -59,6 +68,34 @@
                                     {!! $question->body_html !!}
                                 </p>
                             </div>
+                            <div class="row">
+                                    <div class="col-4">
+                                        @can ('update', $question)
+                                            <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
+                                        @endcan
+                                        @can('delete', $question)
+                                            <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
+                                                @method('delete')
+                                                @csrf
+                                                <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                    <div class="col-5"></div>
+                                    <div class="col-3">
+                                            <span class='text-muted'>{{$question->created_date}}</span>
+                                            <div class="media mt-1">
+                                                <a href='{{ $question->user->url }}' class='pr-2' >
+                                                    <img src=' {{ $question->user->avatar }} '>
+                                                </a>
+                                                <div class="media-body mt-1">
+                                                    <a href='{{ $question->user->url }}' class='pr-2' >
+                                                         {{ $question->user->name }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
                         </div>
                         <div class="d-flex flex-column counters media-right">
 
@@ -80,19 +117,6 @@
                                 </div>
                         </div>
 
-                    </div>
-                    <div class="float-right">
-                            <span class='text-muted'>{{$question->created_date}}</span>
-                            <div class="media mt-1">
-                                <a href='{{ $question->user->url }}' class='pr-2' >
-                                    <img src=' {{ $question->user->avatar }} '>
-                                </a>
-                                <div class="media-body mt-1">
-                                    <a href='{{ $question->user->url }}' class='pr-2' >
-                                         {{ $question->user->name }}
-                                    </a>
-                                </div>
-                            </div>
                     </div>
 
                 </div>

@@ -75,7 +75,7 @@
                     <hr>
                     @endforeach
 
-                    <div class="mx-auto" style='display:block;width:140px;'>
+                    <div class="mx-auto" style='display:block;width:20%;'>
                         {{ $questions->links() }}
                     </div>
 

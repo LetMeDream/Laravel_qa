@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnswersTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,20 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('favorites', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('question_id');
-            $table->text('body');
-            $table->bigInteger('votes_count')->default(0);
 
             $table->timestamps();
+            /** Forbidding user_id: 1 <-> questions_id: 1, to be inserted more than once */
+            $table->unique(['user_id', 'question_id']);
+
 
             /** These are for the relationship, but REMEMBER
-             * RELATIONSHIPS MUST BE CREATED FIRST AT THE MODELS
-             */
-            $table->foreign('user_id')->references('id')->on('users');
+            * RELATIONSHIPS MUST BE CREATED FIRST AT THE MODELS
+            */
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-
         });
     }
 
@@ -38,6 +37,6 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('favorites');
     }
 }

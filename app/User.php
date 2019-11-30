@@ -73,4 +73,12 @@ class User extends Authenticatable
 
     }
 
+    /** Many to many relationship (users<->questions) */
+    public function favorites(){
+
+        /** So this user has many favorites questions through 'favorites' pivot table */
+        return $this->belongsToMany(Question::class, 'favorites');
+
+    }
+
 }
