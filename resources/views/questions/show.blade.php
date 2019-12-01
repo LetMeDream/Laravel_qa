@@ -29,13 +29,26 @@
                     <div class='media'>
                         <!-- Vote controls -->
                         <div class="d-flex flex-column  media-left vote-controls">
-                            <a title='This question is useful' class='vote-up'>
+
+                            <a
+                            onclick = 'event.preventDefault(); document.getElementById("up-vote-question/{{ $question->id }}").submit();'
+                            title='This question is useful' class='vote-up {{ auth::guest() ? 'off' : '' }}'>
                                 <i class='fas fa-caret-up fa-2x'></i>
                             </a>
-                            <span class='votes-count'>1230</span>
-                            <a title='This question is not useful' class='vote-down off'>
+                            <form hidden id='up-vote-question/{{ $question->id }}' action='{{ route('vote.question', $question->id) }} ' method='POST' >
+                                @csrf
+                                <input name='vote' value='1' type='hidden'>
+                            </form>
+                            <span class='votes-count'> {{ $question->real_votes }} </span>
+                            <a title='This question is not useful' class='vote-down {{ auth::guest() ? 'off' : '' }}'
+                                onclick = 'event.preventDefault(); document.getElementById("down-vote-question/{{ $question->id }}").submit();'>
                                 <i class='fas fa-caret-down fa-2x'></i>
                             </a>
+                            <form id='down-vote-question/{{ $question->id }}' action='{{ route('vote.question', $question->id) }} ' method='POST' >
+                                @csrf
+                                <input name='vote' value='-1' type='hidden'>
+                            </form>
+
                             @auth
                                 <a
                                 onclick = 'event.preventDefault(); document.getElementById("favoriteQuestion/{{ $question->id }}").submit();'
@@ -101,9 +114,9 @@
 
                                 <div class="votes">
                                     <strong>
-                                        {{ $question->votes }}
+                                        {{ $question->real_votes }}
                                     </strong>
-                                    {{ Str::plural('vote', $question->votes) }}
+                                    {{ Str::plural('vote', $question->real_votes) }}
                                 </div>
                                 <div class="status {{ $question->status }} ">
                                         <strong>

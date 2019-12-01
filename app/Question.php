@@ -35,6 +35,14 @@ class Question extends Model
 
     }
 
+    /** Many to many Polymorphic relationship (questions<->votables<->user) */
+    public function votes(){
+
+        return $this->morphToMany(User::class, 'votable');
+
+    }
+
+
     /** Another accesor, this one so we can know if the logged user has favorited this question */
     public function getIsFavoritedAttribute(){
 
@@ -97,6 +105,13 @@ class Question extends Model
 
     }
 
+    /** Accesor to get real votes */
+    public function getRealVotesAttribute(){
+
+        return $this->votes()->withPivot('vote')->pluck('vote')->sum();
+
+    }
+
     public function getStatusAttribute(){
 
         if($this->answers_count>0){
@@ -134,6 +149,18 @@ class Question extends Model
 
         }
 
+    }
+
+    /** Counting up votes */
+    public function upVotes(){
+
+        $this->votes()->wherePivot('vote', 1);
+
+    }
+    /** Counting down votes */
+    public function downVotes(){
+
+        $this->votes()->wherePivot('vote', -1);
 
     }
 

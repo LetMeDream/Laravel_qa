@@ -31,3 +31,5 @@ Route::resource('questions.answers', 'AnswersController')->only(['store', 'destr
 Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
 /** Favoriting a question with a SINGLE ACTION CONTROLLER */
 Route::post('question/{question}/favorite', 'FavoriteQuestionController')->name('favorite.question');
+/** Route for voting the question */
+Route::post('questions/{question}/vote', 'voteQuestionController')->name('vote.question');

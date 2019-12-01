@@ -25,6 +25,13 @@ class Answer extends Model
 
     }
 
+    /** Many to many Polymorphic relationship (answers<->votables<->user) */
+    public function votes(){
+
+        return $this->morphToMany(User::class, 'votable');
+
+    }
+
     /** Accesor to parse HTML-like syntax */
     public function getBodyHtmlAttribute(){
 

@@ -56,9 +56,9 @@
 
                                 <div class="votes">
                                     <strong>
-                                        {{ $question->votes }}
+                                        {{ $question->real_votes }}
                                     </strong>
-                                    {{ Str::plural('vote', $question->votes) }}
+                                    {{ Str::plural('vote', $question->real_votes) }}
                                 </div>
                                 <div class="status {{ $question->status }} ">
                                         <strong>
