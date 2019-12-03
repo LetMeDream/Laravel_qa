@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Question;
 use Illuminate\Http\Request;
+use App\Answer;
+use App\Question;
 
-class VoteQuestionController extends Controller
+class VoteAnswerController extends Controller
 {
     //
     public function __construct(){
@@ -14,16 +15,21 @@ class VoteQuestionController extends Controller
 
     }
 
-    public function __invoke(Question $question){
+    public function __invoke(Question $question, Answer $answer){
 
-        $vote = (int) request()->vote;
+        $vote=(int) request()->vote;
 
-        /* dd(auth()->user()->voteQuestion($question, $vote) ); */
-        if(auth()->user()->voteQuestion($question, $vote)=== 1){
+
+
+        if(auth()->user()->voteAnswer($answer, $vote)=== 1){
             return back()->with('repeated','You had already voted this');
         } else {
             return back()->with('success','Your vote has been registered');
         }
 
+
+
     }
+
+
 }

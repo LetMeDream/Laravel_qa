@@ -34,7 +34,7 @@
                             onclick = 'event.preventDefault(); document.getElementById("up-vote-question/{{ $question->id }}").submit();'
                             title='This question is useful' class='vote-up {{ auth::guest() ? 'off' : '' }}'>
                                 <i class='fas fa-caret-up fa-2x'></i>
-                            </a>
+                            </a> {{-- The UP Voting is over here --}}
                             <form hidden id='up-vote-question/{{ $question->id }}' action='{{ route('vote.question', $question->id) }} ' method='POST' >
                                 @csrf
                                 <input name='vote' value='1' type='hidden'>

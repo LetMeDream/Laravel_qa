@@ -32,4 +32,6 @@ Route::post('/answers/{answer}/accept', 'AcceptAnswerController')->name('answers
 /** Favoriting a question with a SINGLE ACTION CONTROLLER */
 Route::post('question/{question}/favorite', 'FavoriteQuestionController')->name('favorite.question');
 /** Route for voting the question */
-Route::post('questions/{question}/vote', 'voteQuestionController')->name('vote.question');
+Route::post('questions/{question}/vote', 'VoteQuestionController')->name('vote.question');
+/** Route for voting an answer */
+Route::post('questions/{question}/answer/{answer}/vote', 'VoteAnswerController' );

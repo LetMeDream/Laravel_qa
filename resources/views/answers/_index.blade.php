@@ -1,3 +1,9 @@
+
+<script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+              crossorigin="anonymous"></script>
+<script type="text/javascript" src="{!! asset('js/votingAnswers.js') !!}"></script>
 <div class="row mt-4">
 
         <div class="col-md-12">
@@ -19,32 +25,47 @@
                         <div class="media mt-2">
                             <!-- Vote controls -->
                             <div class="d-flex flex-column  media-left vote-controls">
-                                <a title='This question is useful' class='vote-up'>
-                                    <i class='fas fa-caret-up fa-2x'></i>
-                                </a>
-                                <span class='votes-count'>123</span>
-                                <a title='This question is not useful' class='vote-down off'>
-                                    <i class='fas fa-caret-down fa-2x'></i>
-                                </a>
-                                @can('accept_answer', $answer)
 
-                                    <a title='Mark this as best answer'
-                                    onclick="event.preventDefault(); document.getElementById('accept-answer-{{$answer->id}}').submit();"
-                                        class='mt-2 {{ $answer->status }}'>
-                                        <i class='fas fa-check fa-2x'></i>
+                                    <a
+                                    title='This question is useful' class='vote-up'>
+                                        <i class='fas fa-caret-up fa-2x'></i>
                                     </a>
-                                    <form id='accept-answer-{{$answer->id}}' action='{{ route('answers.accept', $answer->id) }}' method='POST' style='display:none;'>
+                                    <form action="/questions/{{ $answer->question->id }}/answer/{{ $answer->id }}/vote" hidden class='vote-up-answer' method='post'>
+                                        <input type='hidden' name='vote' value='1'>
                                         @csrf
                                     </form>
-                                @else
-                                    @if($answer->is_best)
-                                        <a title='The question owner accepted this answer as the BEST'
+
+                                    <span class='votes-count'>{{ $answer->real_votes }}</span>
+
+                                    <a
+                                    title='This question is not useful' class='vote-down off'>
+                                        <i class='fas fa-caret-down fa-2x'></i>
+                                    </a>
+                                    <form action="/questions/{{ $answer->question->id }}/answer/{{ $answer->id }}/vote" hidden class='vote-down-answer' method='post'>
+                                        <input type='hidden' name='vote' value='-1'>
+                                        @csrf
+                                    </form>
+
+                                    @can('accept_answer', $answer)
+
+                                        <a title='Mark this as best answer'
+                                        onclick="event.preventDefault(); document.getElementById('accept-answer-{{$answer->id}}').submit();"
                                             class='mt-2 {{ $answer->status }}'>
                                             <i class='fas fa-check fa-2x'></i>
                                         </a>
-                                    @endif
+                                        <form id='accept-answer-{{$answer->id}}' action='{{ route('answers.accept', $answer->id) }}' method='POST' style='display:none;'>
+                                            @csrf
+                                        </form>
+                                    @else
+                                        @if($answer->is_best)
+                                            <a title='The question owner accepted this answer as the BEST'
+                                                class='mt-2 {{ $answer->status }}'>
+                                                <i class='fas fa-check fa-2x'></i>
+                                            </a>
+                                        @endif
 
-                                @endcan
+                                    @endcan
+
 
 
                             </div>

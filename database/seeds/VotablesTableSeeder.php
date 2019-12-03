@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 use App\User;
 use App\Question;
 
+use App\Answer;
+
 class VotablesTableSeeder extends Seeder
 {
     /**
@@ -13,7 +15,7 @@ class VotablesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        //Questions*
         $questions = Question::all()->pluck('id');
 
         $numberOfQuestion = count($questions);
@@ -31,6 +33,26 @@ class VotablesTableSeeder extends Seeder
 
 
         }
+
+        //answers*
+        $answers = Answer::all()->pluck('id');
+
+        $numberOfAnswers = count($answers);
+        $votes = [-1, 1];
+
+        foreach(User::all() as $user){
+
+            for($i = 0; $i < $numberOfAnswers; $i++){
+
+
+                    $user->voteAnswers()->attach($answers[$i], ['vote' => $votes[rand(0,1)] ] );
+
+
+            }
+
+
+        }
+
 
     }
 }
