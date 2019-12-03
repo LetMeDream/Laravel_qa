@@ -94,33 +94,20 @@ class User extends Authenticatable
         $voteQuestions = $this->voteQuestions();
 
         /** We need to know if this user has voted this question */
-        if( $voteQuestions->where('votable_id', $question->id)->exists() ){
-                /** If he had already voted This exact vote */
+        /* if( $voteQuestions->where('votable_id', $question->id)->exists() ){
             if($voteQuestions->where('votable_id', $question->id)->withPivot('vote')->pluck('vote')->get(0) === $vote){
                     return 1;
             }
-            /** Update if he had already voted but wishes to change the vote */
             $voteQuestions->updateExistingPivot($question->id, ['vote' => $vote]);
 
         }else{
-            /** Vote if he had not */
             $voteQuestions->attach($question->id, ['vote' => $vote]);
+        } */
 
+        if($this->_vote($voteQuestions, $question, $vote) === 1 ){
+            return 1;
         }
 
-        /** After the vote, we should recount the total votes_count */
-        /** Lets start by refreshing the votes on current question */
-        $question->load('votes');
-
-        /** UNUSED ALL OF THIS DOWN BELOW SINCE WE DON'T ACCESS VOTES_COUNT COLUMN */
-        /** Positive votes */
-        $positives = $question->votes()->wherePivot('vote', 1)->sum('vote');
-        /** Negative votes */
-        $negatives = $question->votes()->wherePivot('vote', -1)->sum('vote');
-        /** And total */
-        $total = ($positives + $negatives); /** $total = (int) $question->withPivot('vote')->pluck('vote')->sum(); */
-        $question->votes_count = $total;
-        $question->save();
 
     }
 
@@ -136,36 +123,45 @@ class User extends Authenticatable
 
         $voteAnswers = $this->voteAnswers();
 
-        /** if this answer has been voted */
-        if( $voteAnswers->where('votable_id', $answer->id)->exists() ){
+        if($this->_vote($voteAnswers, $answer, $vote)===1){
+            return 1;
+        }
 
-            if($voteAnswers->where('votable_id', $answer->id)->withPivot('user')->pluck('vote')->get(0) === $vote){
+    }
+
+    /** Refactoring votes functionality */
+    public function _vote($relationship, $model, $vote){
+
+
+        /** if this has already been voted */
+        if( $relationship->where('votable_id', $model->id)->exists() ){
+
+            if($relationship->where('votable_id', $model->id)->withPivot('user')->pluck('vote')->get(0) === $vote){
                 return 1;
             }
             /** Update if he had already voted but wishes to change the vote */
-            $voteAnswers->updateExistingPivot($answer->id, ['vote' => $vote]);
+            $relationship->updateExistingPivot($model->id, ['vote' => $vote]);
         }
         else{
             /** Vote if he had not */
-            $voteAnswers->attach($answer->id,['vote' => $vote]);
+            $relationship->attach($model->id,['vote' => $vote]);
 
         }
 
         /** Then we sortof needed to refresh and recount */
-        $answer->load('votes');
+        $model->load('votes');
 
          /** UNUSED ALL OF THIS DOWN BELOW SINCE WE DON'T ACCESS VOTES_COUNT COLUMN */
         /** Counting positive votes */
-        $positive = $answer->votes()->wherePivot('vote', 1)->pluck('vote')->sum();
+        $positive = $model->votes()->wherePivot('vote', 1)->pluck('vote')->sum();
         /** Counting negative votes */
-        $negative = $answer->votes()->wherePivot('vote', -1)->pluck('vote')->sum();
+        $negative = $model->votes()->wherePivot('vote', -1)->pluck('vote')->sum();
         /** Result */
         $total = $positive + $negative; /** $total = (int) $question->withPivot('vote')->pluck('vote')->sum(); */
-        $answer->votes_count = $total;
-        $answer->save();
+        $model->votes_count = $total;
+        $model->save();
 
     }
-
 
 
 
