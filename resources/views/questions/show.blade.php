@@ -30,45 +30,10 @@
                         <!-- Vote controls -->
                         <div class="d-flex flex-column  media-left vote-controls">
 
-                            <a
-                            onclick = 'event.preventDefault(); document.getElementById("up-vote-question/{{ $question->id }}").submit();'
-                            title='This question is useful' class='vote-up {{ auth::guest() ? 'off' : '' }}'>
-                                <i class='fas fa-caret-up fa-2x'></i>
-                            </a> {{-- The UP Voting is over here --}}
-                            <form hidden id='up-vote-question/{{ $question->id }}' action='{{ route('vote.question', $question->id) }} ' method='POST' >
-                                @csrf
-                                <input name='vote' value='1' type='hidden'>
-                            </form>
-                            <span class='votes-count'> {{ $question->real_votes }} </span>
-                            <a title='This question is not useful' class='vote-down {{ auth::guest() ? 'off' : '' }}'
-                                onclick = 'event.preventDefault(); document.getElementById("down-vote-question/{{ $question->id }}").submit();'>
-                                <i class='fas fa-caret-down fa-2x'></i>
-                            </a>
-                            <form id='down-vote-question/{{ $question->id }}' action='{{ route('vote.question', $question->id) }} ' method='POST' >
-                                @csrf
-                                <input name='vote' value='-1' type='hidden'>
-                            </form>
+                            @include('shared._vote', [
+                                'model' => $question
+                            ])
 
-                            @auth
-                                <a
-                                onclick = 'event.preventDefault(); document.getElementById("favoriteQuestion/{{ $question->id }}").submit();'
-                                title='Click to mark as favorite (click again to undo)' class='mt-2 favorite {{ $question->beenFavorited }}'>
-                                    <i class='fas fa-star fa-2x'></i>
-                                </a>
-                                <form id='favoriteQuestion/{{ $question->id }}' action='{{ route('favorite.question', $question->id) }} ' method='POST' >
-                                    @csrf
-                                </form>
-                            @else
-                                <a
-                                onclick = 'event.preventDefault(); document.getElementById("favoriteQuestion/{{ $question->id }}").submit();'
-                                title='Click to mark as favorite (click again to undo)' class='mt-2 favorite'>
-                                    <i class='fas fa-star fa-2x'></i>
-                                </a>
-                                <form id='favoriteQuestion/{{ $question->id }}' action='{{ route('favorite.question', $question->id) }} ' method='POST' >
-                                    @csrf
-                                </form>
-                            @endauth
-                            <span class='favorites-count'>{{$question->isFavoritedCount}}</span>
                         </div>
                         <!-- Vote controls -->
 
@@ -96,19 +61,12 @@
                                     </div>
                                     <div class="col-5"></div>
                                     <div class="col-3">
-                                            <span class='text-muted'>{{$question->created_date}}</span>
-                                            <div class="media mt-1">
-                                                <a href='{{ $question->user->url }}' class='pr-2' >
-                                                    <img src=' {{ $question->user->avatar }} '>
-                                                </a>
-                                                <div class="media-body mt-1">
-                                                    <a href='{{ $question->user->url }}' class='pr-2' >
-                                                         {{ $question->user->name }}
-                                                    </a>
-                                                </div>
-                                            </div>
+                                            @include('shared._author', [
+                                            'model' => $question,
+                                            'label' => 'Asked'
+                                        ])
                                     </div>
-                                </div>
+                            </div>
                         </div>
                         <div class="d-flex flex-column counters media-right">
 

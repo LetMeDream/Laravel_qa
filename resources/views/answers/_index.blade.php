@@ -26,47 +26,9 @@
                             <!-- Vote controls -->
                             <div class="d-flex flex-column  media-left vote-controls">
 
-                                    <a
-                                    title='This question is useful' class='vote-up'>
-                                        <i class='fas fa-caret-up fa-2x'></i>
-                                    </a>
-                                    <form action="/questions/{{ $answer->question->id }}/answer/{{ $answer->id }}/vote" hidden class='vote-up-answer' method='post'>
-                                        <input type='hidden' name='vote' value='1'>
-                                        @csrf
-                                    </form>
-
-                                    <span class='votes-count'>{{ $answer->real_votes }}</span>
-
-                                    <a
-                                    title='This question is not useful' class='vote-down off'>
-                                        <i class='fas fa-caret-down fa-2x'></i>
-                                    </a>
-                                    <form action="/questions/{{ $answer->question->id }}/answer/{{ $answer->id }}/vote" hidden class='vote-down-answer' method='post'>
-                                        <input type='hidden' name='vote' value='-1'>
-                                        @csrf
-                                    </form>
-
-                                    @can('accept_answer', $answer)
-
-                                        <a title='Mark this as best answer'
-                                        onclick="event.preventDefault(); document.getElementById('accept-answer-{{$answer->id}}').submit();"
-                                            class='mt-2 {{ $answer->status }}'>
-                                            <i class='fas fa-check fa-2x'></i>
-                                        </a>
-                                        <form id='accept-answer-{{$answer->id}}' action='{{ route('answers.accept', $answer->id) }}' method='POST' style='display:none;'>
-                                            @csrf
-                                        </form>
-                                    @else
-                                        @if($answer->is_best)
-                                            <a title='The question owner accepted this answer as the BEST'
-                                                class='mt-2 {{ $answer->status }}'>
-                                                <i class='fas fa-check fa-2x'></i>
-                                            </a>
-                                        @endif
-
-                                    @endcan
-
-
+                                @include('shared._vote', [
+                                    'model' => $answer
+                                ])
 
                             </div>
                             <!-- Vote controls -->
@@ -92,18 +54,13 @@
                                     </div>
                                     <div class="col-5"></div>
                                     <div class="col-3">
-                                            <span class='text-muted'>{{$answer->created_date}}</span>
-                                            <div class="media mt-1">
-                                                <a href='{{ $answer->user->url }}' class='pr-2' >
-                                                    <img src=' {{ $answer->user->avatar }} '>
-                                                </a>
-                                                <div class="media-body mt-1">
-                                                    <a href='{{ $answer->user->url }}' class='pr-2' >
-                                                         {{ $answer->user->name }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                        @include('shared._author', [
+                                            'model' => $answer,
+                                            'label' => 'Answered'
+                                        ])
+
+                                    </div>
                                 </div>
 
 
