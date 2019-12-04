@@ -18,7 +18,7 @@
 
                 <div class="card-body">
                     @include('layouts._messages')
-                    @foreach ($questions as $question)
+                    @forelse ($questions as $question)
                         <div class='media'>
                             <div class="media-body">
                                 <div class="d-flex align-items-center">
@@ -75,7 +75,16 @@
 
                         </div>
                         <hr>
-                    @endforeach
+                    @empty
+                        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+
+                                We are sorry; there are no questions available.
+                                {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+ --}}
+                        </div>
+                    @endforelse
 
                     <div class="mx-auto" style='display:block;width:20%;'>
                         {{ $questions->links() }}

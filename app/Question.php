@@ -23,7 +23,9 @@ class Question extends Model
     /** Relationship toward Answers */
     public function answers(){
 
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->orderBy('votes_count', 'DESC'); /** Wherever this is called, the order will be DESC
+                                                                              *   $question->answers
+        */
 
     }
 
