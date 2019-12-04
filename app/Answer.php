@@ -28,7 +28,7 @@ class Answer extends Model
     /** Accesor to parse HTML-like syntax */
     public function getBodyHtmlAttribute(){
 
-        return \Parsedown::instance()->text($this->body);
+        return clean(\Parsedown::instance()->text($this->body));
 
     }
 

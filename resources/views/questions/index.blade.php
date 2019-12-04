@@ -19,60 +19,62 @@
                 <div class="card-body">
                     @include('layouts._messages')
                     @foreach ($questions as $question)
-                    <div class='media'>
-                        <div class="media-body">
-                            <div class="d-flex align-items-center">
-                            <div>
-                                    <h5><a href='{{ $question->url }}' >{{ $question->title }}</a></h5>
-                            </div>
+                        <div class='media'>
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                            <h5><a href='{{ $question->url }}' >{{ $question->title }}</a></h5>
+                                    </div>
 
-                                <div class="ml-auto">
-                                    @if (Gate::allows('update', $question))
-                                        <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
-                                    @endif
-                                    @if (Gate::allows('delete', $question))
-                                        <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
-                                            @method('delete')
-                                            @csrf
-                                            <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
-                                        </form>
-                                    @endif
+                                    <div class="ml-auto">
+                                        @if (Gate::allows('update', $question))
+                                            <a href='{{ route("questions.edit", $question->id) }}' class='btn btn-sm btn-outline-info'>Edit</a>
+                                        @endif
+                                        @if (Gate::allows('delete', $question))
+                                            <form action='{{ route("questions.destroy", $question->id) }}' method='post' class='d-inline'>
+                                                @method('delete')
+                                                @csrf
+                                                <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </div>
 
-
-                        </div>
-                            <p class='lead'>
-                                Asked By
-                                <a href=' {{ $question->user->url }} '> {{ $question->user->name }} </a>
-                                <small class='text-muted'> {{ $question->created_date }} </small>
-                            </p>
-                            <div>
-                                <p>
-                                    {{ Str::limit($question->body, 200) }}
+                                <p class='lead'>
+                                    Asked By
+                                    <a href=' {{ $question->user->url }} '> {{ $question->user->name }} </a>
+                                    <small class='text-muted'> {{ $question->created_date }} </small>
                                 </p>
+                                <div>
+                                    <p>
+                                        {!! Str::limit($question->body_html, 307) !!}
+                                    </p>
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="d-flex flex-column counters media-right">
 
-                                <div class="votes">
-                                    <strong>
-                                        {{ $question->real_votes }}
-                                    </strong>
-                                    {{ Str::plural('vote', $question->real_votes) }}
-                                </div>
-                                <div class="status {{ $question->status }} ">
+                            <div class="d-flex flex-column counters media-right">
+
+                                    <div class="votes">
                                         <strong>
-                                            {{ $question->answers_count }}
+                                            {{ $question->real_votes }}
                                         </strong>
-                                        {{ Str::plural('answer', $question->answers_count) }}
-                                </div>
-                                <div class="views">
+                                        {{ Str::plural('vote', $question->real_votes) }}
+                                    </div>
+                                    <div class="status {{ $question->status }} ">
+                                            <strong>
+                                                {{ $question->answers_count }}
+                                            </strong>
+                                            {{ Str::plural('answer', $question->answers_count) }}
+                                    </div>
+                                    <div class="views">
 
-                                    {{ $question->views . ' ' . Str::plural('view', $question->views) }}
-                                </div>
+                                        {{ $question->views . ' ' . Str::plural('view', $question->views) }}
+                                    </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <hr>
+                        <hr>
                     @endforeach
 
                     <div class="mx-auto" style='display:block;width:20%;'>
