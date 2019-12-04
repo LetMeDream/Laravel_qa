@@ -24,7 +24,7 @@ class QuestionsController extends Controller
     {
         /* \DB::enableQueryLog(); */
 
-        $questions = Question::with('user')->latest()->paginate(5);
+        $questions = Question::with('user')->orderBy('votes_count', 'DESC')->paginate(5);
 
         //dd($questions);
 

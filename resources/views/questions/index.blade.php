@@ -86,8 +86,10 @@
                         </div>
                     @endforelse
 
-                    <div class="mx-auto" style='display:block;width:20%;'>
-                        {{ $questions->links() }}
+                    <div class="justify-content-center" style='display:flex;'>
+                        <div class="flex-item">
+                            {{ $questions->links() }}
+                        </div>
                     </div>
 
                 </div>
