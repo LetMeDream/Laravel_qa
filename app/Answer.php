@@ -12,6 +12,8 @@ class Answer extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['created_date'];
+
     // Relationship toward User
     public function user(){
 

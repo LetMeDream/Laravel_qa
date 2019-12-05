@@ -30,7 +30,9 @@ class RouteServiceProvider extends ServiceProvider
             /* return Question::with(['answers.user', 'answers' => function($query){
                 $query->orderBy('votes_count', 'DESC');
             }])->where('slug', $slug)->firstOrFail(); */
-            return Question::with('answers.user')->where('slug', $slug)->firstOrFail();
+
+            /** We had to Eager Load the question User as well in here in order for Vue to read it */
+            return Question::with(['answers.user', 'user'])->where('slug', $slug)->firstOrFail();
         });
 
         parent::boot();

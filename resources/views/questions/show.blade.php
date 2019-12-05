@@ -1,4 +1,5 @@
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
 @extends('layouts.app')
 
 @section('content')
@@ -61,10 +62,13 @@
                                     </div>
                                     <div class="col-5"></div>
                                     <div class="col-3">
-                                            @include('shared._author', [
+                                            {{-- @include('shared._author', [
                                             'model' => $question,
                                             'label' => 'Asked'
-                                        ])
+                                            ]) --}}
+                                        <user-info :model='{{ $question }}' label='Asked'></user-info>
+
+
                                     </div>
                             </div>
                         </div>
