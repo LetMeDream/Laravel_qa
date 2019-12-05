@@ -1,6 +1,6 @@
 <template>
 
-    <div class="">
+    <div class="root">
 
         <span class='text-muted'>{{ postDate }}</span>
         <div class="media mt-1">

@@ -8,9 +8,9 @@
 
         <div class="col-md-12">
 
-            <div class="card">
+            <div class="card" v-cloak >
                 @if ($answersCount > 0)
-                    <div class="card-header">
+                    <div class="card-header" {{-- v-cloak is for this instance to wait until other have loaded completely. --}}>
 
                         <div class="card-title">
                             <h2>{{ $answersCount . ' ' . str::plural('Answer', $answersCount) }}</h2>
@@ -22,7 +22,7 @@
 
                         @foreach ($answers->sortByDesc('real_votes') as $answer)
 
-                            @include('answers.answers', ['answer' => $answer])
+                            @include('answers._answer', ['answer' => $answer])
 
                         @endforeach
 

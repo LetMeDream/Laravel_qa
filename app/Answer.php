@@ -12,7 +12,7 @@ class Answer extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['created_date'];
+    protected $appends = ['created_date', 'body_html'];
 
     // Relationship toward User
     public function user(){
@@ -79,11 +79,11 @@ class Answer extends Model
         });
 
         /** Eloquent Event; when saved */
-        static::saved(function($answer){
+       /*  static::saved(function($answer){
 
             echo "Answer saved\n";
 
-        });
+        }); */
 
         static::deleted(function($answer){
 

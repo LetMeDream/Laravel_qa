@@ -65,6 +65,19 @@ class AnswersController extends Controller
         /* dd($data); */
         $answer->update($data);
 
+        /** Now, when integrating with VueJS and Axios, we won't needt to redirect to this route;
+         * Instead, we will need to return a JSON response.
+         */
+        if($request->expectsJson()){
+
+            return response()->json([
+                'message' => 'Answer updated correctly',
+                'body_html' => $answer->body
+            ]);
+
+        }
+
+
         return redirect()->route('questions.show', $question->slug)->with('success', 'Your answer was updated');
 
     }
