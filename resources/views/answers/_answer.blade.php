@@ -33,11 +33,12 @@
                                             <a v-on:click.prevent='edit' {{-- href='{{ route("questions.answers.edit", [$question->id ,$answer->id]) }}' --}} class='btn btn-sm btn-outline-info'>Edit</a>
                                         @endif
                                         @if (Gate::allows('delete', $answer))
-                                            <form action='{{ route("questions.answers.destroy", [$question->id, $answer->id]) }}' method='post' class='d-inline'>
-                                                @method('delete')
-                                                @csrf
-                                                <button class='btn btn-outline-danger btn-sm' onclick="return confirm('Are you sure?')" type='submit'>Delete</button>
-                                            </form>
+                                        <!-- Ajaxifying delete functionality -->
+                                            <button v-on:click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
+                                        {{-- <form action='{{ route("questions.answers.destroy", [$question->id, $answer->id]) }}' method='post' class='d-inline'>
+                                            @method('delete')
+                                            @csrf
+                                        </form> --}}
                                         @endif
                                 </div>
                                 <!-- Delete and updte stuff -->
