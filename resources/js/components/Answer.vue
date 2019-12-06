@@ -37,35 +37,60 @@ export default {
                 console.log(res);
                 this.editing = false;
                 this.body_html = res.data.body_html;
-                alert(res.data.message);
+                /** Alerting using iziToast */
+                this.$toast.success(res.data.message, { timeout: 3000 });
             })
             .catch(err => {
-                /* console.error(err); */
-                alert(err.response.data.message);
+                /** Alerting using iziToast */
+                this.$toast.success('Answer updated', 'Success', { timeout: 3000 });
             })
 
         },
 
         destroy()
         {
-            if(confirm('Do you really want to do this?') ){
+            this.$toast.question('Are you sure about that?', 'Confirm',{
+            timeout: 20000,
+            close: false,
+            overlay: true,
+            displayMode: 'once',
+            id: 'question',
+            zindex: 999,
+            title: 'Hey',
+            message: 'Are you sure about that?',
+            position: 'center',
+            buttons: [
+                ['<button><b>YES</b></button>', (instance, toast) => {
 
                 axios.delete(this.endpoint,{
 
                 })
                 .then(res => {
                         $(this.$el).fadeOut(550, () => {
-                                alert(res.data.message)
+                                /** Alerting using iziToast */
+                                this.$toast.success(res.data.message, { timeout: 3000 });
                         })
 
-                })
+                });
 
 
                 $(this.$el).fadeOut(550, () => {
-                                alert('Your answer has been deleted');
-                })
+                                /** Alerting using iziToast */
+                                this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
+                });
 
-            }
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                }],
+            ],
+
+        });
+
         }
     },
 
