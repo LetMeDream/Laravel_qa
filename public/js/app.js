@@ -1866,7 +1866,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       /** Ajax request using AXIOS */
-      axios.put("/questions/".concat(this.questionId, "/answers/").concat(this.id), {
+      axios.put(this.endpoint, {
         body: this.body
       }).then(function (res) {
         /** Promise */
@@ -1878,11 +1878,28 @@ __webpack_require__.r(__webpack_exports__);
         /* console.error(err); */
         alert(err.response.data.message);
       });
+    },
+    destroy: function destroy() {
+      var _this2 = this;
+
+      if (confirm('Do you really want to do this?')) {
+        axios["delete"](this.endpoint, {}).then(function (res) {
+          $(_this2.$el).fadeOut(550, function () {
+            alert(res.data.message);
+          });
+        });
+        $(this.$el).fadeOut(550, function () {
+          alert('Your answer has been deleted');
+        });
+      }
     }
   },
   computed: {
     isInvalid: function isInvalid() {
       return this.body.length < 10;
+    },
+    endpoint: function endpoint() {
+      return "/questions/".concat(this.questionId, "/answers/").concat(this.id);
     }
   }
 });

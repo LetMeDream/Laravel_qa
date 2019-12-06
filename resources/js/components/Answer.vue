@@ -11,7 +11,8 @@ export default {
             id: this.answer.id,
             questionId: this.answer.question_id,
             /** Holding answer body before editing */
-            body_cache: null
+            body_cache: null,
+
         }
     },
 
@@ -29,7 +30,7 @@ export default {
         update () {
 
             /** Ajax request using AXIOS */
-            axios.put(`/questions/${this.questionId}/answers/${this.id}`,{
+            axios.put(this.endpoint,{
                 body: this.body
             })
             .then(res => { /** Promise */
@@ -43,6 +44,28 @@ export default {
                 alert(err.response.data.message);
             })
 
+        },
+
+        destroy()
+        {
+            if(confirm('Do you really want to do this?') ){
+
+                axios.delete(this.endpoint,{
+
+                })
+                .then(res => {
+                        $(this.$el).fadeOut(550, () => {
+                                alert(res.data.message)
+                        })
+
+                })
+
+
+                $(this.$el).fadeOut(550, () => {
+                                alert('Your answer has been deleted');
+                })
+
+            }
         }
     },
 
@@ -50,6 +73,10 @@ export default {
 
         isInvalid(){
             return this.body.length < 10;
+        },
+
+        endpoint(){
+            return `/questions/${this.questionId}/answers/${this.id}`
         }
 
     }

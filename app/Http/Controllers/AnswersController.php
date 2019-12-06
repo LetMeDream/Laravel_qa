@@ -93,6 +93,19 @@ class AnswersController extends Controller
         // Remember to authorize in the backend, as well, using our custom Policies.
         $this->authorize('delete', $answer);
         $answer->destroy($answer->id);
+
+        /** Now, when integrating with VueJS and Axios, we won't needt to redirect to this route;
+         * Instead, we will need to return a JSON response.
+         */
+        if($request->expectsJson()){
+
+            return response()->json([
+                'message2' => 'Answer deleted correctly',
+            ]);
+
+        }
+
+
         return back()->with('success', 'Your answer was successfully deleted');
 
         /** NOTE:
@@ -100,7 +113,7 @@ class AnswersController extends Controller
          *  This aditional logic will cover the case when an Answer already selected as Best_answer is deleted.
          *
          *  For this particular case we have 2 options:
-         *  1) The best answer could be prevented to be removed. Which can be done on out 'delete' policy.
+         *  1) The best answer could be prevented to be removed. Which can be done on our 'delete' policy.
          *  2) The best answer can be removed, but we will need to update column 'best_answer_id' in the Questions table whenever we do it.
          *
          *  In this app we will use the second approach.
