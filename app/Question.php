@@ -14,7 +14,7 @@ class Question extends Model
     //
     protected $fillable = ['title', 'body'];
 
-    protected $appends = ['created_date', 'url'];
+    protected $appends = ['created_date', 'url', 'beenFavorited', 'isFavoritedCount'];
 
     /** Relationship toward Users */
     public function user(){
@@ -77,13 +77,13 @@ class Question extends Model
 
             if($users[$i] === auth()->id()){
 
-                return 'favorited';
+                return true;
 
             }
 
         }
 
-        return '';
+        return false;
 
 
     }

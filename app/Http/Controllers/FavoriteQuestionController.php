@@ -34,11 +34,33 @@ class FavoriteQuestionController extends Controller
         if($notFavorited){
 
             $question->favorites()->attach(auth()->id());
+
+            if(request()->expectsJson()){
+
+                return response()->json([
+                    'message' => 'Message at NOTFAVORITES',
+                    'favorit' => 1
+                ]);
+
+            }
+
+
             return back()->with('success', 'The question has been favorited');
 
         }else{
 
             $question->favorites()->detach(auth()->id());
+
+            if(request()->expectsJson()){
+
+                return response()->json([
+                    'message' => 'Message NOT at FAVORITED',
+                    'favorit' => 0
+                ]);
+
+            }
+
+
             return back()->with('success', 'The question is no longer a favorite');
         }
 

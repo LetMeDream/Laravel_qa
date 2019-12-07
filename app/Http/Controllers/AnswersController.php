@@ -97,7 +97,7 @@ class AnswersController extends Controller
         /** Now, when integrating with VueJS and Axios, we won't needt to redirect to this route;
          * Instead, we will need to return a JSON response.
          */
-        if($request->expectsJson()){
+        if(request()->expectsJson()){
 
             return response()->json([
                 'message2' => 'Answer deleted correctly',
