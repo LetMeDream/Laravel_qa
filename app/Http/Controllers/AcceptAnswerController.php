@@ -17,8 +17,21 @@ class AcceptAnswerController extends Controller
         $random = $answer->question->acceptBestAnswer($answer);
 
         if($random===1){
+
+            if(request()->expectsJson()){
+                return response()->json([
+                    'message' => 'Answer is no longer favorite'
+                ]);
+            }
+
             return back()->with('success', 'The answer is no longer the best answer.');
         }else{
+
+            if(request()->expectsJson()){
+                return response()->json([
+                    'message' => 'Answer selected as favorite'
+                ]);
+            }
             return back()->with('success', 'The answer was accepted as best answer.');
         }
 
