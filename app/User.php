@@ -129,6 +129,7 @@ class User extends Authenticatable
             return 1;
         }
 
+
     }
 
     /** Refactoring votes functionality */
@@ -139,6 +140,7 @@ class User extends Authenticatable
         if( $relationship->where('votable_id', $model->id)->exists() ){
 
             if($relationship->where('votable_id', $model->id)->withPivot('user')->pluck('vote')->get(0) === $vote){
+                /** And voted this same vote */
                 return 1;
             }
             /** Update if he had already voted but wishes to change the vote */
@@ -162,6 +164,8 @@ class User extends Authenticatable
         $total = $positive + $negative; /** $total = (int) $question->withPivot('vote')->pluck('vote')->sum(); */
         $model->votes_count = $total;
         $model->save();
+
+        /* return $model->votes_count; */
 
     }
 

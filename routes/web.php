@@ -32,4 +32,4 @@ Route::post('question/{question}/favorite', 'FavoriteQuestionController')->name(
 /** Route for voting the question */
 Route::post('questions/{question}/vote', 'VoteQuestionController')->name('vote.question');
 /** Route for voting an answer */
-Route::post('questions/{question}/answer/{answer}/vote', 'VoteAnswerController' );
+Route::post('answers/{answer}/vote', 'VoteAnswerController' );

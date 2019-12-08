@@ -2,13 +2,15 @@
 
         <div class="media post mt-2">
                 <!-- Vote controls -->
-                <div class="d-flex flex-column  media-left vote-controls">
 
-                    @include('shared._vote', [
+
+                    {{-- @include('shared._vote', [
                         'model' => $answer
-                    ])
+                    ]) --}}
 
-                </div>
+                    <vote name='answer' :model='{{$answer}}' ></vote>
+
+
                 <!-- Vote controls -->
                 <div class="media-body">
                     <form v-if='editing' @submit.prevent = " update " >

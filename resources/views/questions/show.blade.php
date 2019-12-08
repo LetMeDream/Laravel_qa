@@ -29,13 +29,15 @@
 
                     <div class='media'>
                         <!-- Vote controls -->
-                        <div class="d-flex flex-column  media-left vote-controls">
 
-                            @include('shared._vote', [
+
+                            {{-- @include('shared._vote', [
                                 'model' => $question
-                            ])
+                            ]) --}}
 
-                        </div>
+                            <vote name="question" :model='{{ $question }}'></vote>
+
+
                         <!-- Vote controls -->
 
 

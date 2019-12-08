@@ -12,7 +12,7 @@ class Answer extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['created_date', 'body_html', 'is_best'];
+    protected $appends = ['created_date', 'body_html', 'is_best', 'real_votes'];
 
     // Relationship toward User
     public function user(){

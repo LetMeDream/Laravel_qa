@@ -18,10 +18,32 @@ class VoteQuestionController extends Controller
 
         $vote = (int) request()->vote;
 
+
         /* dd(auth()->user()->voteQuestion($question, $vote) ); */
         if(auth()->user()->voteQuestion($question, $vote)=== 1){
+            $votes = $question->real_votes;
+
+
+            if(request()->expectsJson()){
+                return response()->json([
+                    'message' => 'Repeated, you had already voted this',
+                    'repeated' => 1,
+                    'votes' => $votes
+                ]);
+            }
+
             return back()->with('repeated','You had already voted this');
         } else {
+            $votes = $question->real_votes;
+
+            if(request()->expectsJson()){
+                return response()->json([
+                    'message' => 'Your vote was added',
+                    'repeated' => 0,
+                    'votes' => $votes
+                ]);
+            }
+
             return back()->with('success','Your vote has been registered');
         }
 
