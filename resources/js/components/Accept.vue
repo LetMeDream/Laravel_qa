@@ -2,17 +2,17 @@
 
     <div>
 
-            <a v-if='canAccept' title='Mark this as best answer'
+            <a v-if="canAccept" title='Mark this as best answer'
                 @click.prevent = 'create'
                 :class='classes'>
                 <i class='fas fa-check fa-2x'></i>
             </a>
 
 
-            <a v-if='accepted' title='The question owner accepted this answer as the BEST'
+            <!-- <a v-if='accepted' title='The question owner accepted this answer as the BEST'
                 :class='classes'>
                 <i class='fas fa-check fa-2x'></i>
-            </a>
+            </a> -->
 
 
 
@@ -35,7 +35,7 @@ export default {
 
         /** hardcoding, for now, the authorization logic */
         canAccept() {
-            return true;
+            return this.authorize('accept', this.answer);
         },
 
         accepted() {
