@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
             }])->where('slug', $slug)->firstOrFail(); */
 
             /** We had to Eager Load the question User as well in here in order for Vue to read it */
-            return Question::with(['answers.user', 'user'])->where('slug', $slug)->firstOrFail();
+            return Question::with('user')->where('slug', $slug)->firstOrFail();
         });
 
         parent::boot();

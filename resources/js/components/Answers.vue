@@ -18,6 +18,13 @@
 
                             <answer v-for="answer in answers" :answer='answer' :key='answer.id'></answer>
 
+                            <div v-if='nextUrl' v-on:click='fetch(nextUrl)'
+                            class='text-center mt-3'>
+
+                                <button class='btn btn-outline-secondary'>Load More Answers</button>
+
+                            </div>
+
                         </div>
 
 
@@ -35,17 +42,52 @@ import answer from './Answer.vue';
 
 export default {
 
-    props: ['answers', 'count'],
+    props: ['question'],
+
+    data(){
+        return{
+            questionId: this.question.id,
+            count: this.question.answers_count,
+            answers: [],
+            nextUrl: null
+        }
+    },
+
+    /** This method is automatically self-called by VUE whenever a new component is instanciated
+     *  This is generally used for fetching data from a backend API.
+    */
+    created(){
+        this.fetch(`/questions/${this.questionId}/answers`);
+
+    },
+
+    methods:{
+        fetch(endpoint){
+            axios.get(endpoint)
+            .then(({data}) => { /** This is called object distructing operator, or so it seems. */
+                this.answers.push(...data.data); /** The '... operator ' is called Rest or Spread operator (Spread, for this case) */
+                console.log(data.next_page_rul)
+                this.nextUrl = data.next_page_url;
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        }
+    },
+
+
 
     computed: {
 
         title(){
-
             return this.count + ' ' + (this.count > 0 ? 'answers' : 'answer');
         }
 
     },
 
+    /** Since we are importing other Components, (instead of registering them at app.js),
+     * we must call them in 'components' property.
+     */
     components: {answer}
 
 }

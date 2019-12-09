@@ -22,7 +22,7 @@ Route::resource('questions', 'QuestionsController')->except('show');
 Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show');
 
 /** Resourceful Route for answers */
-Route::resource('questions.answers', 'AnswersController')->only(['store', 'destroy', 'update', 'edit']);
+Route::resource('questions.answers', 'AnswersController')->only(['store', 'destroy', 'update', 'edit', 'index']);
 /* Route::post('questions/{question}/answers', 'AnswerController@store')->name('answers.store'); */
 
 /** Accepting answer as best with a SINGLE ACTION CONTROLLER */
