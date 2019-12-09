@@ -38,14 +38,14 @@ class VotablesTableSeeder extends Seeder
         $answers = Answer::all()->pluck('id');
 
         $numberOfAnswers = count($answers);
-        $votes = [-1, 1];
+        $votes = [-1, 1, 1];
 
         foreach(User::all() as $user){
 
             for($i = 0; $i < $numberOfAnswers; $i++){
 
 
-                    $user->voteAnswers()->attach($answers[$i], ['vote' => $votes[rand(0,1)] ] );
+                    $user->voteAnswers()->attach($answers[$i], ['vote' => $votes[rand(0,2)] ] );
 
 
             }

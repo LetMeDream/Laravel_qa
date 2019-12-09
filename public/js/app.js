@@ -2014,19 +2014,14 @@ __webpack_require__.r(__webpack_exports__);
         position: 'center',
         buttons: [['<button><b>YES</b></button>', function (instance, toast) {
           axios["delete"](_this2.endpoint, {}).then(function (res) {
-            $(_this2.$el).fadeOut(550, function () {
-              /** Alerting using iziToast */
-              _this2.$toast.success(res.data.message, {
-                timeout: 3000
-              });
-            });
+            /** Here we will use a custom event; that's because Custom events can be called from child components (Answer.vue) and
+             *  listened to by parent components (Answers.vue). */
+            _this2.$emit('deleted');
           });
-          $(_this2.$el).fadeOut(550, function () {
-            /** Alerting using iziToast */
-            _this2.$toast.success('Answer deleted', 'Success', {
-              timeout: 3000
-            });
-          });
+          /* $(this.$el).fadeOut(550, () => {
+                          this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
+          }); */
+
           instance.hide({
             transitionOut: 'fadeOut'
           }, toast, 'button');
@@ -2144,6 +2139,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       })["catch"](function (err) {
         console.error(err);
       });
+    },
+    remove: function remove(index) {
+      this.answers.splice(index, 1);
+      this.count--;
     }
   },
   computed: {
@@ -38551,10 +38550,15 @@ var render = function() {
               "div",
               { staticClass: "card-body" },
               [
-                _vm._l(_vm.answers, function(answer) {
+                _vm._l(_vm.answers, function(answer, index) {
                   return _c("answer", {
                     key: answer.id,
-                    attrs: { answer: answer }
+                    attrs: { answer: answer },
+                    on: {
+                      deleted: function($event) {
+                        return _vm.remove(index)
+                      }
+                    }
                   })
                 }),
                 _vm._v(" "),

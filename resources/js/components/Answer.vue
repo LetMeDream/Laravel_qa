@@ -107,18 +107,15 @@ export default {
 
                 })
                 .then(res => {
-                        $(this.$el).fadeOut(550, () => {
-                                /** Alerting using iziToast */
-                                this.$toast.success(res.data.message, { timeout: 3000 });
-                        })
-
+                    /** Here we will use a custom event; that's because Custom events can be called from child components (Answer.vue) and
+                     *  listened to by parent components (Answers.vue). */
+                    this.$emit('deleted');
                 });
 
 
-                $(this.$el).fadeOut(550, () => {
-                                /** Alerting using iziToast */
+                /* $(this.$el).fadeOut(550, () => {
                                 this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
-                });
+                }); */
 
                     instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 

@@ -105,6 +105,7 @@ class Answer extends Model
     /** Accesor */
     public function getRealVotesAttribute(){
 
+
         return $this->votes()->withPivot('vote')->pluck('vote')->sum();
 
 

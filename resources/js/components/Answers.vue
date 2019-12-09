@@ -16,7 +16,7 @@
 
                         <div class="card-body">
 
-                            <answer v-for="answer in answers" :answer='answer' :key='answer.id'></answer>
+                            <answer @deleted='remove(index)' v-for="(answer, index) in answers" :answer='answer' :key='answer.id'></answer>
 
                             <div v-if='nextUrl' v-on:click='fetch(nextUrl)'
                             class='text-center mt-3'>
@@ -72,6 +72,13 @@ export default {
             .catch(err => {
                 console.error(err);
             })
+        },
+
+        remove(index){
+
+            this.answers.splice(index,1);
+            this.count--;
+
         }
     },
 
