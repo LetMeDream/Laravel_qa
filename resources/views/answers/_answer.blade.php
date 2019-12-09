@@ -1,12 +1,12 @@
-<answer :answer="{{ $answer }}" inline-template>
+<answer :answer="{{ $answer }}">
 
-        <div class="media post mt-2">
+        {{-- <div class="media post mt-2">
                 <!-- Vote controls -->
 
 
-                    {{-- @include('shared._vote', [
+                    <!-- @include('shared._vote', [
                         'model' => $answer
-                    ]) --}}
+                    ]) -->
 
                     <vote name='answer' :model='{{$answer}}' ></vote>
 
@@ -24,7 +24,6 @@
                     </form>
 
                     <div v-else>
-                        {{-- {!! $answer->body_html !!} --}}
                         <div v-html='body_html'></div>
 
                         <div class="row">
@@ -32,15 +31,15 @@
                                 <!-- Delete and updte stuff -->
                                 <div class='float-left'>
                                         @if (Gate::allows('update', $answer))
-                                            <a v-on:click.prevent='edit' {{-- href='{{ route("questions.answers.edit", [$question->id ,$answer->id]) }}' --}} class='btn btn-sm btn-outline-info'>Edit</a>
+                                            <a v-on:click.prevent='edit' class='btn btn-sm btn-outline-info'>Edit</a>
                                         @endif
                                         @if (Gate::allows('delete', $answer))
                                         <!-- Ajaxifying delete functionality -->
                                             <button v-on:click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
-                                        {{-- <form action='{{ route("questions.answers.destroy", [$question->id, $answer->id]) }}' method='post' class='d-inline'>
+                                        <!-- <form action='{{ route("questions.answers.destroy", [$question->id, $answer->id]) }}' method='post' class='d-inline'>
                                             @method('delete')
                                             @csrf
-                                        </form> --}}
+                                        </form> -->
                                         @endif
                                 </div>
                                 <!-- Delete and updte stuff -->
@@ -48,10 +47,10 @@
                             <div class="col-5"></div>
                             <div class="col-3">
 
-                                {{-- @include('shared._author', [
+                                <!-- @include('shared._author', [
                                     'model' => $answer,
                                     'label' => 'Answered'
-                                ]) --}}
+                                ]) -->
 
                                 <user-info :model='{{ $answer }}' label='Answered'></user-info>
 
@@ -60,6 +59,6 @@
                     </div>
 
                 </div>
-            </div>
+        </div> --}}
 
 </answer>

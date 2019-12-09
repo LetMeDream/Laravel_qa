@@ -1,3 +1,44 @@
+<template>
+
+    <div class="media post mt-2">
+                <!-- Vote controls -->
+                    <vote name='answer' :model='answer' ></vote>
+                <!-- Vote controls -->
+                <div class="media-body">
+                    <form v-if='editing' @submit.prevent = " update " >
+
+                        <div class="form-group">
+                            <textarea required rows="10" v-model='body' class='form-control'></textarea>
+                        </div>
+                        <button type='submit' :disabled='isInvalid'  class='btn btn-outline-primary'>Update</button>
+                        <button v-on:click.prevent=' cancel '    class='btn btn-outline-secondary'>Cancel</button>
+
+                    </form>
+
+                    <div v-else>
+                        <div v-html='body_html'></div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <!-- Delete and updte stuff -->
+                                <div class='float-left'>
+                                            <a v-if='authorize("modify", answer)' v-on:click.prevent='edit'  class='btn btn-sm btn-outline-info'>Edit</a>
+                                        <!-- Ajaxifying delete functionality -->
+                                            <button v-if='authorize("delete", answer)' v-on:click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
+                                </div>
+                                <!-- Delete and updte stuff -->
+                            </div>
+                            <div class="col-5"></div>
+                            <div class="col-3">
+                                <user-info :model='answer' label='Answered'></user-info>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+
+</template>
 
 <script>
 export default {

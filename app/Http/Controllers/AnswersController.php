@@ -56,7 +56,7 @@ class AnswersController extends Controller
     public function update(Request $request, Question $question , Answer $answer)
     {
         // Remember to authorize in the backend, as well, using our custom Policies.
-        $this->authorize('update', $answer);
+        /* $this->authorize('update', $answer); */
 
         $data = $request->validate([
             'body' => 'required'

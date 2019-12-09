@@ -6,10 +6,18 @@ export default {
 
     },
 
+    delete(user, model){
+
+        return user.id === model.question.user_id;
+
+    },
+
     accept(user, answer){
 
         return user.id === answer.question.user_id
 
     }
+
+
 
 }
