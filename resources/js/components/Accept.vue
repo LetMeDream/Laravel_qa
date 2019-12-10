@@ -21,7 +21,10 @@
 </template>
 
 <script>
+import eventBus from '../event-bus';
 export default {
+
+
     props: ['answer'],
 
     data (){
@@ -52,6 +55,16 @@ export default {
 
     },
 
+    created(){
+
+        eventBus.$on('accepted', id =>{
+
+            this.isBest = (id === this.id);
+
+        })
+
+    },
+
     methods: {
 
         create() {
@@ -64,6 +77,9 @@ export default {
                     position: 'bottomLeft'
                 });
                 this.isBest = !this.isBest;
+
+                /** Lets emit an events using event bus  */
+                eventBus.$emit('accepted', this.id)
 
             })
             .catch(err => {
