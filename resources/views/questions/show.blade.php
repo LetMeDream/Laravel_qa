@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <!--<div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 {{-- <div class="card-body"></div> --}}
@@ -28,7 +28,7 @@
                 <div class="card-body">
 
                     <div class='media'>
-                        <!-- Vote controls -->
+                        {{-- Vote controls --}}
 
 
                             {{-- @include('shared._vote', [
@@ -38,7 +38,7 @@
                             <vote name="question" :model='{{ $question }}'></vote>
 
 
-                        <!-- Vote controls -->
+                        {{-- Vote controls --}}
 
 
                         <div class="media-body">
@@ -46,7 +46,7 @@
                                 <p>
                                     {{-- {{ $question->body }} --}}
 
-                                    {!! $question->body_html !!}
+                                    {{-- {!! $question->body_html !!} --}}
                                 </p>
                             </div>
                             <div class="row">
@@ -99,7 +99,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+
+    <question :question='{{ $question }}'></question>
 
     @include('layouts._messages')
 

@@ -22,9 +22,9 @@
                             <div class="col-4">
                                 <!-- Delete and updte stuff -->
                                 <div class='float-left'>
-                                            <a v-if='authorize("modify", answer)' v-on:click.prevent='edit'  class='btn btn-sm btn-outline-info'>Edit</a>
+                                            <a v-if='authorize("modify", answer)' @click.prevent='edit'  class='btn btn-sm btn-outline-info'>Edit</a>
                                         <!-- Ajaxifying delete functionality -->
-                                            <button v-if='authorize("delete", answer)' v-on:click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
+                                            <button v-if='authorize("delete", answer)' @click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
                                 </div>
                                 <!-- Delete and updte stuff -->
                             </div>
@@ -101,33 +101,33 @@ export default {
             message: 'Are you sure about that?',
             position: 'center',
             buttons: [
-                ['<button><b>YES</b></button>', (instance, toast) => {
+                        ['<button><b>YES</b></button>', (instance, toast) => {
 
-                axios.delete(this.endpoint,{
+                        axios.delete(this.endpoint,{
 
-                })
-                .then(res => {
-                    /** Here we will use a custom event; that's because Custom events can be called from child components (Answer.vue) and
-                     *  listened to by parent components (Answers.vue). */
-                    this.$emit('deleted');
-                });
+                        })
+                        .then(res => {
+                            /** Here we will use a custom event; that's because Custom events can be called from child components (Answer.vue) and
+                             *  listened to by parent components (Answers.vue). */
+                            this.$emit('deleted');
+                        });
 
 
-                /* $(this.$el).fadeOut(550, () => {
-                                this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
-                }); */
+                        /* $(this.$el).fadeOut(550, () => {
+                                        this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
+                        }); */
 
-                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
-                }, true],
-                ['<button>NO</button>', function (instance, toast) {
+                        }, true],
+                        ['<button>NO</button>', function (instance, toast) {
 
-                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
-                }],
-            ],
+                        }],
+                    ],
 
-        });
+            });
 
         }
     },
