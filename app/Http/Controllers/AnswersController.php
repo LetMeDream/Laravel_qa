@@ -36,9 +36,16 @@ class AnswersController extends Controller
             'body' => 'required'
         ]);
 
-        /* dd(\Auth::id()); */
+        /* The create method return an Answer object. this can be assigned to a variable */
+        $answer = $question->answers()->create([ 'body' => $request->body, 'user_id' => \Auth::id() ]);
 
-        $question->answers()->create([ 'body' => $request->body, 'user_id' => \Auth::id() ]);
+        if(request()->expectsJson()){
+            return response()->json([
+                'message' => 'Answer created successfully',
+                /** Answer must eager load its user, for it to be displayed properly */
+                'answer' => $answer->load('user')
+            ]);
+        }
 
         return back()->with('success', 'Your answer was successfully created');
 

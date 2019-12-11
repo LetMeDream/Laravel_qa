@@ -1,6 +1,8 @@
 <template>
 
-    <div class="row mt-4">
+    <div class="">
+
+        <div class="row mt-4">
 
             <div class="col-md-12">
 
@@ -33,12 +35,18 @@
 
             </div>
 
+        </div>
+
+        <newAnswer @created='add' :question='question'></newAnswer>
+
     </div>
 
 </template>
 
 <script>
+/** Importing components that are always gonna be ONLY inside this component */
 import answer from './Answer.vue';
+import newAnswer from './NewAnswer';
 
 export default {
 
@@ -79,6 +87,13 @@ export default {
             this.answers.splice(index,1);
             this.count--;
 
+        },
+
+        add(answer){
+
+            this.answers.push(answer);
+            this.count++;
+
         }
     },
 
@@ -95,7 +110,7 @@ export default {
     /** Since we are importing other Components, (instead of registering them at app.js),
      * we must call them in 'components' property.
      */
-    components: {answer}
+    components: {answer, newAnswer}
 
 }
 </script>
