@@ -20,7 +20,8 @@ class AcceptAnswerController extends Controller
 
             if(request()->expectsJson()){
                 return response()->json([
-                    'message' => 'Answer is no longer favorite'
+                    'message' => 'Answer is no longer favorite',
+                    'favorite' => false
                 ]);
             }
 
@@ -29,7 +30,8 @@ class AcceptAnswerController extends Controller
 
             if(request()->expectsJson()){
                 return response()->json([
-                    'message' => 'Answer selected as favorite'
+                    'message' => 'Answer selected as favorite',
+                    'favorite' => true
                 ]);
             }
             return back()->with('success', 'The answer was accepted as best answer.');

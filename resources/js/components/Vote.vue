@@ -16,15 +16,20 @@
             </a>
 
             <accept  v-if="name==='answer'" :answer='model'></accept>
-             <favorite v-if="name==='question'" :question='model'></favorite>
+            <favorite v-if="name==='question'" :question='model'></favorite>
 
         </div>
 
 </template>
 
 <script>
+    import Favorite from './Favorite';
+    import Accept from './Accept';
+
     export default {
         props: ['name', 'model'],
+
+        components: { Accept, Favorite },
 
         data(){
             return {

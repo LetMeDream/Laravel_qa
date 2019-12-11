@@ -64,7 +64,7 @@
                                         <div class='float-left'>
                                             <button v-if='authorize("modify", question)' @click.prevent='edit'  class='btn btn-sm btn-outline-info'>Edit</button>
                                         <!-- Ajaxifying delete functionality -->
-                                            <button v-if='authorize("modify", question)' @click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
+                                            <button v-if='authorize("deleteQuestion", question)' @click.prevent=" destroy " class='btn btn-outline-danger btn-sm' >Delete</button>
                                         </div>
                                         <!-- Delete and updte stuff -->
                                     </div>
@@ -76,22 +76,22 @@
                         </div>
                         <div class="d-flex flex-column counters media-right">
 
-                                <!-- <div class="votes">
+                                <div class="votes">
                                     <strong>
-                                        {{ $question->real_votes }}
+                                        {{ votes }}
                                     </strong>
-                                    {{ Str::plural('vote', $question->real_votes) }}
+                                    {{ votes_count }}
                                 </div>
-                                <div class="status {{ $question->status }} ">
+                                <div :class='classes'>
                                         <strong>
-                                            {{ $question->answers_count }}
+                                            {{ answers }}
                                         </strong>
-                                        {{ Str::plural('answer', $question->answers_count) }}
+                                            {{ answers_count }}
                                 </div>
                                 <div class="views">
 
-                                    {{ $question->views . ' ' . Str::plural('view', $question->views) }}
-                                </div> -->
+                                   <!--  {{ question.views }} -->
+                                </div>
                         </div>
 
                     </div>
@@ -104,9 +104,14 @@
 </template>
 
 <script>
+import Vote from './Vote';
+import UserInfo from './UserInfo';
+
 export default {
 
     props:['question'],
+
+    components: { Vote, UserInfo },
 
     data(){
         return{
@@ -115,11 +120,33 @@ export default {
             bodyHtml: this.question.body_html,
             editing: false,
             id: this.question.id,
-            beforeEditCache: {}
+            beforeEditCache: {},
+            votes: this.question.real_votes,
+            answers: this.question.answers_count
+
         }
     },
 
     computed: {
+        classes(){
+
+            return ['status',
+                this.question.best_answer_id ? 'answered-accepted' : 'answered'
+            ]
+
+        },
+
+        answers_count(){
+
+            return (this.answers > 1 || this.answers === 0) ? 'answers' : 'answer';
+
+        },
+
+        votes_count(){
+
+            return (this.votes > 1 || this.votes === 0) ? 'votes' : 'vote';
+
+        },
 
         isInvalid(){
 

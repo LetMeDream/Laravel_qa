@@ -30,7 +30,8 @@ export default {
     data (){
         return {
             isBest: this.answer.is_best,
-            id: this.answer.id
+            id: this.answer.id,
+            bestAnswerId : this.answer.question.best_answer_id
         }
     },
 
@@ -61,6 +62,11 @@ export default {
 
             this.isBest = (id === this.id);
 
+        }),
+        eventBus.$on('unaccepted', id =>{
+
+            this.isBest = false;
+
         })
 
     },
@@ -78,8 +84,14 @@ export default {
                 });
                 this.isBest = !this.isBest;
 
+
                 /** Lets emit an events using event bus  */
-                eventBus.$emit('accepted', this.id)
+                if(res.data.favorite){
+                    eventBus.$emit('accepted', this.id)
+                }else{
+                    eventBus.$emit('unaccepted', this.id)
+                }
+
 
             })
             .catch(err => {
