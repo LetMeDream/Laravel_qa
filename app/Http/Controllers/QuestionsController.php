@@ -104,7 +104,8 @@ class QuestionsController extends Controller
         if(request()->expectsJson()){
 
             return response()->json([
-                    'message' => 'Questions successfully updated'
+                    'message' => 'Questions successfully updated',
+                    'body_html' => $question->body_html
             ]);
 
         }

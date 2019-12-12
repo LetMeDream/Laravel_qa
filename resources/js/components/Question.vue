@@ -56,7 +56,7 @@
 
                         <div class="media-body">
                             <div>
-                                <div v-html='bodyHtml'></div>
+                                <div v-html='body_html'></div>
                             </div>
                             <div class="row">
                                     <div class="col-4">
@@ -106,23 +106,28 @@
 <script>
 import Vote from './Vote';
 import UserInfo from './UserInfo';
+/** Mixin */
+import mixinQA from '../mixins/mixinQA'
 
 export default {
 
     props:['question'],
 
+    mixins:[mixinQA],
+
     components: { Vote, UserInfo },
 
     data(){
         return{
+            /** Editing ain't here cause it comes from our Mixin */
             title: this.question.title,
             body: this.question.body,
-            bodyHtml: this.question.body_html,
-            editing: false,
+            body_html: this.question.body_html,
             id: this.question.id,
             beforeEditCache: {},
             votes: this.question.real_votes,
-            answers: this.question.answers_count
+            answers: this.question.answers_count,
+            accepted: null
 
         }
     },
@@ -131,7 +136,8 @@ export default {
         classes(){
 
             return ['status',
-                this.question.best_answer_id ? 'answered-accepted' : 'answered'
+                this.question.best_answer_id ? 'answered-accepted' : 'answered',
+                this.accepted ? 'answered-accepted' : '',
             ]
 
         },
@@ -162,60 +168,45 @@ export default {
 
     },
 
+    created(){
+
+        eventBus.$on('accepted', () =>{
+            this.accepted = 1;
+        });
+        eventBus.$on('unaccepted', () =>{
+            this.accepted = null;
+        });
+
+    },
+
+
     methods:{
 
-        edit(){
+        setEditCache(){
             this.beforeEditCache = {
                 body : this.body,
                 title: this.title,
             }
-
-            this.editing = true;
-
         },
 
-        cancel() {
+        restoreFromCache() {
             this.body = this.beforeEditCache.body;
             this.title = this.beforeEditCache.title;
 
-            this.editing = false;
         },
 
-        update(){
+        payload(){
 
-            axios.put(this.endpoint,{
+            return {
                 body : this.body,
                 title : this.title
-            })
-            .then(res => {
-                console.log(res);
-                this.$toast.success(data.message, "Success", {
-                    timeout: 3000
-                })
-                this.editing = false;
-            })
-            .catch(err => {
-                console.error(err);
-            })
+            }
 
         },
 
-        destroy(){
+        delete(){
 
-            this.$toast.question('Are you sure about deleting this question?', 'Confirm',{
-            timeout: 20000,
-            close: false,
-            overlay: true,
-            displayMode: 'once',
-            id: 'question',
-            zindex: 999,
-            title: 'Hey',
-            message: 'Are you sure about that?',
-            position: 'center',
-            buttons: [
-                        ['<button><b>YES</b></button>', (instance, toast) => {
-
-                        axios.delete(this.endpoint,{
+            return axios.delete(this.endpoint,{
 
                         })
                         .then(res => {
@@ -231,22 +222,6 @@ export default {
                         .catch(err=>{
                             alert(err.message);
                         });
-
-                        /* $(this.$el).fadeOut(550, () => {
-                                        this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
-                        }); */
-
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-                        }, true],
-                        ['<button>NO</button>', function (instance, toast) {
-
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-                        }],
-                    ],
-
-            });
 
         }
 

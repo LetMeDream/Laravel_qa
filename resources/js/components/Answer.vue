@@ -42,16 +42,21 @@
 
 <script>
 import Vote from './Vote';
-import UserInfo from './UserInfo'
+import UserInfo from './UserInfo';
+/** Mixin */
+import mixinQA from '../mixins/mixinQA';
+
 
 export default {
     props: ['answer'],
+
+    mixins: [mixinQA],
 
     components: { Vote, UserInfo },
 
     data (){
         return {
-            editing: false,
+            /** Editing defined in mixin */
             body: this.answer.body,
             body_html: this.answer.body_html,
             id: this.answer.id,
@@ -63,77 +68,28 @@ export default {
     },
 
     methods:{
-        edit(){
-            this.editing = true;
+        setEditCache(){
             this.body_cache = this.body;
         },
-        cancel(){
-
-            this.editing = false;
+        restoreFromCache(){
             this.body = this.body_cache;
-
         },
-        update () {
-
-            /** Ajax request using AXIOS */
-            axios.put(this.endpoint,{
+        payload(){
+            return {
                 body: this.body
-            })
-            .then(res => { /** Promise */
-                console.log(res);
-                this.editing = false;
-                this.body_html = res.data.body_html;
-                /** Alerting using iziToast */
-                this.$toast.success(res.data.message, { timeout: 3000 });
-            })
-            .catch(err => {
-                /** Alerting using iziToast */
-                this.$toast.success('Answer updated', 'Success', { timeout: 3000 });
-            })
-
+            }
         },
 
-        destroy()
-        {
-            this.$toast.question('Are you sure about that?', 'Confirm',{
-            timeout: 20000,
-            close: false,
-            overlay: true,
-            displayMode: 'once',
-            id: 'question',
-            zindex: 999,
-            title: 'Hey',
-            message: 'Are you sure about that?',
-            position: 'center',
-            buttons: [
-                        ['<button><b>YES</b></button>', (instance, toast) => {
-
-                        axios.delete(this.endpoint,{
-
-                        })
+        delete(){
+            return axios.delete(this.endpoint,{})
                         .then(res => {
                             /** Here we will use a custom event; that's because Custom events can be called from child components (Answer.vue) and
                              *  listened to by parent components (Answers.vue). */
                             this.$emit('deleted');
-                        });
-
-
-                        /* $(this.$el).fadeOut(550, () => {
-                                        this.$toast.success('Answer deleted', 'Success', { timeout: 3000 });
-                        }); */
-
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-                        }, true],
-                        ['<button>NO</button>', function (instance, toast) {
-
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
-                        }],
-                    ],
-
-            });
-
+                            this.$toast.success('Answer successfully deleted', 'Success',{
+                                timeout: 2000
+                            });
+                    });
         }
     },
 

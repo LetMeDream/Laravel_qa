@@ -47,6 +47,8 @@
 /** Importing components that are always gonna be ONLY inside this component */
 import answer from './Answer.vue';
 import newAnswer from './NewAnswer';
+/** Event bus */
+import eventBus from '../event-bus';
 
 export default {
 
@@ -102,7 +104,7 @@ export default {
     computed: {
 
         title(){
-            return this.count + ' ' + (this.count > 0 ? 'answers' : 'answer');
+            return this.count + ' ' + (this.count === 0 || this.count > 1 ? 'answers' : 'answer');
         }
 
     },

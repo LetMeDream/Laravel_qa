@@ -87,9 +87,9 @@ export default {
 
                 /** Lets emit an events using event bus  */
                 if(res.data.favorite){
-                    eventBus.$emit('accepted', this.id)
+                    eventBus.$emit('accepted', this.id);
                 }else{
-                    eventBus.$emit('unaccepted', this.id)
+                    eventBus.$emit('unaccepted', this.id);
                 }
 
 
