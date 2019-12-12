@@ -135,7 +135,6 @@ class User extends Authenticatable
     /** Refactoring votes functionality */
     public function _vote($relationship, $model, $vote){
 
-
         /** if this has already been voted */
         if( $relationship->where('votable_id', $model->id)->exists() ){
 

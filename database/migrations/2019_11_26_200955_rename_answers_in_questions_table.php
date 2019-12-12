@@ -13,7 +13,7 @@ class RenameAnswersInQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('Questions', function (Blueprint $table) {
+        Schema::table('questions', function (Blueprint $table) {
             // Here is where we will rename the column; STOP JUST MIGRATING:FRESH YOU MOTHERFUCKER /B/STARD
 
             $table->renameColumn('answers', 'answers_count');
