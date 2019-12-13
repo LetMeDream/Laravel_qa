@@ -2140,7 +2140,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         /** The '... operator ' is called Rest or Spread operator (Spread, for this case) */
 
 
-        console.log(data.next_page_rul);
+        console.log(data.next_page_url);
         _this.nextUrl = data.next_page_url;
       })["catch"](function (err) {
         console.error(err);
@@ -2353,6 +2353,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Vote__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Vote */ "./resources/js/components/Vote.vue");
 /* harmony import */ var _UserInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserInfo */ "./resources/js/components/UserInfo.vue");
 /* harmony import */ var _mixins_mixinQA__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/mixinQA */ "./resources/js/mixins/mixinQA.js");
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../event-bus */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -2463,6 +2464,9 @@ __webpack_require__.r(__webpack_exports__);
 /** Mixin */
 
 
+/** Event bus */
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['question'],
   mixins: [_mixins_mixinQA__WEBPACK_IMPORTED_MODULE_2__["default"]],
@@ -2503,10 +2507,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    eventBus.$on('accepted', function () {
+    _event_bus__WEBPACK_IMPORTED_MODULE_3__["default"].$on('accepted', function () {
       _this.accepted = 1;
     });
-    eventBus.$on('unaccepted', function () {
+    _event_bus__WEBPACK_IMPORTED_MODULE_3__["default"].$on('unaccepted', function () {
       _this.accepted = null;
     });
   },

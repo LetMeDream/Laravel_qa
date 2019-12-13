@@ -107,7 +107,9 @@
 import Vote from './Vote';
 import UserInfo from './UserInfo';
 /** Mixin */
-import mixinQA from '../mixins/mixinQA'
+import mixinQA from '../mixins/mixinQA';
+/** Event bus */
+import eventBus from '../event-bus';
 
 export default {
 

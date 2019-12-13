@@ -76,7 +76,7 @@ export default {
             axios.get(endpoint)
             .then(({data}) => { /** This is called object distructing operator, or so it seems. */
                 this.answers.push(...data.data); /** The '... operator ' is called Rest or Spread operator (Spread, for this case) */
-                console.log(data.next_page_rul)
+                console.log(data.next_page_url);
                 this.nextUrl = data.next_page_url;
             })
             .catch(err => {

@@ -16,7 +16,7 @@ class AnswersController extends Controller
 
     public function index(Question $question){
 
-        /** Since whenever we show an answer we also should USER info, we will need to eager load users for answers */
+        /** Since whenever we show an answer we also should show USER info, we will need to eager load users for answers */
         $answers = $question->answers()->with('user');
         return  $answers->simplePaginate(3);
 
