@@ -12,4 +12,5 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+   .copy('node_modules/prismjs/themes', 'public/css/prismjs-themes')  /** This line of mine added here is to copy prismJs Themes into a css/public folder */
    .sass('resources/sass/app.scss', 'public/css');

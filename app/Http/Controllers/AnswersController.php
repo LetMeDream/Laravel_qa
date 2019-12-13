@@ -92,7 +92,7 @@ class AnswersController extends Controller
 
             return response()->json([
                 'message' => 'Answer updated correctly',
-                'body_html' => $answer->body
+                'body_html' => $answer->body_html
             ]);
 
         }

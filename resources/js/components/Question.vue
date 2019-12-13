@@ -32,7 +32,7 @@
 
                         <div class="media-body">
                             <div class="form-group">
-                                <m-editor :body='body' >
+                                <m-editor :body='body' :name='uniqueName'>
                                     <textarea required rows="10" v-model='body' class='form-control'></textarea>
                                 </m-editor>
                             </div>
@@ -168,6 +168,13 @@ export default {
         endpoint(){
 
             return `/questions/${this.id}`;
+
+        },
+
+        /** To avoid MEditor id's conflict */
+        uniqueName(){
+
+            return `question-${this.id}`;
 
         }
 

@@ -8,7 +8,9 @@
                     <form v-if='editing' @submit.prevent = " update " >
 
                         <div class="form-group">
-                            <textarea required rows="10" v-model='body' class='form-control'></textarea>
+                            <m-editor :body='body' :name='uniqueName'>
+                                <textarea required rows="10" v-model='body' class='form-control'></textarea>
+                            </m-editor>
                         </div>
                         <button type='submit' :disabled='isInvalid'  class='btn btn-outline-primary'>Update</button>
                         <button v-on:click.prevent=' cancel '    class='btn btn-outline-secondary'>Cancel</button>
@@ -43,16 +45,18 @@
 <script>
 import Vote from './Vote';
 import UserInfo from './UserInfo';
+import MEditor from './MEditor';
 /** Mixin */
 import mixinQA from '../mixins/mixinQA';
-
+/** importing markdown-t */
+import Markdown from 'markdown-it';
 
 export default {
     props: ['answer'],
 
     mixins: [mixinQA],
 
-    components: { Vote, UserInfo },
+    components: { Vote, UserInfo, MEditor },
 
     data (){
         return {
@@ -101,6 +105,13 @@ export default {
 
         endpoint(){
             return `/questions/${this.questionId}/answers/${this.id}`
+        },
+
+        /** To avoid MEditor id's conflict */
+        uniqueName(){
+
+            return `answer-${this.id}`;
+
         }
 
     }

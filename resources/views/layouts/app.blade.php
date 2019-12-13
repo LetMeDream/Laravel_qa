@@ -15,6 +15,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/prismjs-themes/prism.css') }}" rel="stylesheet"> {{-- Prism-themes css, manually added on lesson-45 --}}
 </head>
 <body>
     <div id="app">
