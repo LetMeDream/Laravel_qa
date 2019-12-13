@@ -28,6 +28,8 @@
 <script>
 /** Importing markdown-it package */
 import MarkdownIt from 'markdown-it';
+/** And autosize package */
+import autosize from 'autosize';
 /** Then define a variable to hold the markdown-it instance */
 const md = new MarkdownIt();
 
@@ -40,6 +42,13 @@ export default {
         preview(){
             return md.render(this.body);
         }
+
+    },
+
+    /** Lifecycle hook */
+    mounted(){
+
+        autosize(this.$el.querySelector('textarea'));
 
     }
 
