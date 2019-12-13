@@ -32,7 +32,9 @@
 
                         <div class="media-body">
                             <div class="form-group">
-                                <textarea required rows="10" v-model='body' class='form-control'></textarea>
+                                <m-editor :body='body' >
+                                    <textarea required rows="10" v-model='body' class='form-control'></textarea>
+                                </m-editor>
                             </div>
                             <button type='submit' :disabled='isInvalid'  class='btn btn-outline-primary'>Update</button>
                             <button @click.prevent=' cancel '    class='btn btn-outline-secondary'>Cancel</button>
@@ -106,6 +108,7 @@
 <script>
 import Vote from './Vote';
 import UserInfo from './UserInfo';
+import MEditor from './MEditor';
 /** Mixin */
 import mixinQA from '../mixins/mixinQA';
 /** Event bus */
@@ -117,7 +120,7 @@ export default {
 
     mixins:[mixinQA],
 
-    components: { Vote, UserInfo },
+    components: { Vote, UserInfo, MEditor },
 
     data(){
         return{
